@@ -113,7 +113,12 @@
                     &::before{
                         border-style: solid;
                         border-width: 0 6px 6px 6px;
-                        border-color: transparent transparent #9F78FF transparent;
+                        border-color: transparent transparent 
+                            
+                            
+                            
+                            
+                            transparent;
                         content: "";
                         top: -5px;
                         left: 13%;
@@ -299,7 +304,7 @@
         }
     }
     .card-stor {
-        background: #9F78FF;
+        background: #aa996b;
         padding: 8px 20px;
         border-radius: 30px;
         cursor: pointer;
@@ -401,7 +406,7 @@
         }
     }
     .card-stor {
-        background: #9F78FF;
+        background: #aa996b;
         padding: 8px 20px;
         border-radius: 30px;
         cursor: pointer;
