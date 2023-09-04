@@ -7,12 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Flavours\**" />
+    <Content Remove="Views\Flavours\**" />
+    <EmbeddedResource Remove="Views\Flavours\**" />
+    <None Remove="Views\Flavours\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\FlavoursController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Views\Test\" />
     <Folder Include="wwwroot\assets\img\NewFolder\NewFolder1\" />
     <Folder Include="wwwroot\assets\img\NewFolder\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
   </ItemGroup>
 
