@@ -1,6 +1,6 @@
-﻿
+﻿@model IEnumerable<WebApplication1.Models.Flavour>
 @{
-    ViewData["Title"] = "Flavours";
+    ViewData["Title"] = "Shop";
     Layout = "~/Views/Shared/ProjectLayout.cshtml";
 }
 
@@ -12,7 +12,7 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Shop</a></li>
                         </ol>
                     </nav>
@@ -57,298 +57,29 @@
                     <!--? New Arrival Start -->
                     <div class="new-arrival new-arrival2">
                         <div class="row">
-
+                            @foreach (var item in Model){
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
+                                <div class="single-new-arrival mb-50 text-center" >
+                                    <a asp-action="Flavour" asp-route-id="@item.Id">
                                     <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival2.png" alt="">
+                                            <img src="~/assets/img/NewFolder/@Html.DisplayFor(modelItem => item.ImageURL)" alt="">
                                         <div class="favorit-items">
                                             <span class="flaticon-heart"></span>
                                             <img src="~/assets/img/gallery/favorit-card.png" alt="">
                                         </div>
                                     </div>
                                     <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
+                                            <h3><a href="product_details.html">@Html.DisplayFor(modelItem => item.Name)</a></h3>
+                                            <span>@Html.DisplayFor(modelItem => item.Price)$ per liter</span>
                                     </div>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival3.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival4.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl43 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival5.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival6.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival7.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival8.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                <div class="single-new-arrival mb-50 text-center">
-                                    <div class="popular-img">
-                                        <img src="~/assets/img/gallery/arrival1.png" alt="">
-                                        <div class="favorit-items">
-                                            <span class="flaticon-heart"></span>
-                                            <img src="~/assets/img/gallery/favorit-card.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="popular-caption">
-                                        <h3><a href="product_details.html">Knitted Jumper</a></h3>
-                                        <div class="rating mb-10">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>$ 30.00</span>
-                                    </div>
-                                </div>
-                            </div>
-
-
+                            }
                             <!-- listing-area Area End -->
-                            <!--? Popular Items Start -->
-                            <div class="popular-items">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-popular-items mb-50 text-center">
-                                                <div class="popular-img">
-                                                    <img src="~/assets/img/gallery/popular1.png" alt="">
-                                                    <div class="img-cap">
-                                                        <span>Glasses</span>
-                                                    </div>
-                                                    <div class="favorit-items">
-                                                        <a href="shop.html" class="btn">Shop Now</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-popular-items mb-50 text-center">
-                                                <div class="popular-img">
-                                                    <img src="~/assets/img/gallery/popular2.png" alt="">
-                                                    <div class="img-cap">
-                                                        <span>Watches</span>
-                                                    </div>
-                                                    <div class="favorit-items">
-                                                        <a href="shop.html" class="btn">Shop Now</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-popular-items mb-50 text-center">
-                                                <div class="popular-img">
-                                                    <img src="~/assets/img/gallery/popular3.png" alt="">
-                                                    <div class="img-cap">
-                                                        <span>Jackets</span>
-                                                    </div>
-                                                    <div class="favorit-items">
-                                                        <a href="shop.html" class="btn">Shop Now</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-popular-items mb-50 text-center">
-                                                <div class="popular-img">
-                                                    <img src="~/assets/img/gallery/popular4.png" alt="">
-                                                    <div class="img-cap">
-                                                        <span>Clothes</span>
-                                                    </div>
-                                                    <div class="favorit-items">
-                                                        <a href="shop.html" class="btn">Shop Now</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                            <!-- Popular Items End -->
-                            <!--? Services Area Start -->
-                            <div class="categories-area section-padding40 gray-bg">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-cat mb-50">
-                                                <div class="cat-icon">
-                                                    <img src="~/assets/img/icon/services1.svg" alt="">
-                                                </div>
-                                                <div class="cat-cap">
-                                                    <h5>Fast & Free Delivery</h5>
-                                                    <p>Free delivery on all orders</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-cat mb-50">
-                                                <div class="cat-icon">
-                                                    <img src="~/assets/img/icon/services2.svg" alt="">
-                                                </div>
-                                                <div class="cat-cap">
-                                                    <h5>Fast & Free Delivery</h5>
-                                                    <p>Free delivery on all orders</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-cat mb-30">
-                                                <div class="cat-icon">
-                                                    <img src="~/assets/img/icon/services3.svg" alt="">
-                                                </div>
-                                                <div class="cat-cap">
-                                                    <h5>Fast & Free Delivery</h5>
-                                                    <p>Free delivery on all orders</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                            <div class="single-cat">
-                                                <div class="cat-icon">
-                                                    <img src="~/assets/img/icon/services4.svg" alt="">
-                                                </div>
-                                                <div class="cat-cap">
-                                                    <h5>Fast & Free Delivery</h5>
-                                                    <p>Free delivery on all orders</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--? Services Area End -->
+                        </div>
+                    </div>
+                </div>
+                           
 </main>
 

@@ -10,11 +10,11 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class Flavours1Controller : Controller
+    public class ManagerController : Controller
     {
         private readonly WebApplication1Context _context;
 
-        public Flavours1Controller(WebApplication1Context context)
+        public ManagerController(WebApplication1Context context)
         {
             _context = context;
         }

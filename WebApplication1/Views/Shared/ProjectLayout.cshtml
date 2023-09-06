@@ -48,7 +48,7 @@
                         <div class="header-left d-flex align-items-center">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="index.html"><img src="~/assets/img/logo/logo.png" alt=""></a>
+                                <a asp-action="Index"><img src="~/assets/img/logo/logo.png" alt=""></a>
                             </div>
                             <!-- Main-menu -->
                             <div class="main-menu  d-none d-lg-block">
@@ -56,8 +56,8 @@
                                     <ul id="navigation">
                                         <li><a asp-action="Index">Home</a></li>
                                         <li><a asp-action="Flavours">shop</a></li>
-                                        <li><a href="about.html">About</a></li>
-                                        <li>
+                                        <li><a asp-action ="About">About</a></li>
+                                        <!--<li>
                                             <a href="blog.html">Blog</a>
                                             <ul class="submenu">
                                                 <li><a href="blog.html">Blog</a></li>
@@ -65,8 +65,8 @@
                                                 <li><a href="elements.html">Elements</a></li>
                                                 <li><a href="product_details.html">Product Details</a></li>
                                             </ul>
-                                        </li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        </li>-->
+                                        <li><a asp-action="Contact">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -260,6 +260,8 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="~/assets/js/plugins.js"></script>
     <script src="~/assets/js/main.js"></script>
+
+    <script src="~/assets/js/plus_minus_button.js"></script>
 
 </body>
 </html>

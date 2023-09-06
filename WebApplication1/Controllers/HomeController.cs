@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using WebApplication1.Data;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -7,18 +9,25 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly WebApplication1Context _context;
+        public HomeController(ILogger<HomeController> logger, WebApplication1Context context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            return _context.Flavour != null ?
+                         View(await _context.Flavour.ToListAsync()) :
+                         Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
+        }
+
+        public IActionResult About()
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }
@@ -26,10 +35,27 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-
-        public IActionResult Flavours()
+        public async Task<IActionResult> Flavour(int? id)
         {
-            return View();
+            if (id == null || _context.Flavour == null)
+            {
+                return NotFound();
+            }
+
+            var flavour = await _context.Flavour
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (flavour == null)
+            {
+                return NotFound();
+            }
+
+            return View(flavour);
+        }
+        public async Task<IActionResult> Flavours()
+        {
+            return _context.Flavour != null ?
+                          View(await _context.Flavour.ToListAsync()) :
+                          Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

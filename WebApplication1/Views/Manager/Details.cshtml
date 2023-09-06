@@ -1,16 +1,17 @@
 ﻿@model WebApplication1.Models.Flavour
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/ProjectLayout.cshtml";
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<div class="ml-55">
+<h1>Details</h1>
+<h4>Flavour</h4>
+<hr />
+</div>
+<div class="ml-55 mb-10">
 <div>
-    <h4>Flavour</h4>
-    <hr />
+    
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -37,10 +38,9 @@
             @Html.DisplayFor(model => model.ImageURL)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" style="color:darkblue">Back to List</a>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" style="color:darkblue">Edit</a> |
+    <a asp-action="Index" style="color:darkblue">Back to List</a>
+</div>
 </div>
