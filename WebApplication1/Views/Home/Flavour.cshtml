@@ -45,102 +45,48 @@
 					<div class="quantity buttons_added">
 						<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
 					</div>
-					<!--<div class="input-group mb-3" style="max-width: 120px;">
-						<div class="input-group-prepend">
-							<button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-						</div>
-						<input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-						<div class="input-group-append">
-							<button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-						</div>-->
+					
 				</div>
 				<div class="row justify-content-left ml-1">
 					<div class="room-btn">
-						<a href="#" class="border-btn">Add To Cart</a>
+						<a href="#" class="border-btn" id="addToCartButton">Add To Cart</a>
+					</div>
+					<div id="cartConfirmation" class="alert alert-success" style="display: none;">
+						Product added to cart successfully!
 					</div>
 				</div>
 			</div>
-			<!--<p><a href="cart.html" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>-->
-			<!-- Button -->
-			
-
 		</div>
 	</div>
-</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#addToCartButton").on("click", function (e) {
+				e.preventDefault(); // Prevent the default form submission
 
-<!--<div class="site-section block-3 site-blocks-2 bg-light">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-md-7 site-section-heading text-center pt-4">
-				<h2>Featured Products</h2>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="nonloop-block-3 owl-carousel">
-					<div class="item">
-						<div class="block-4 text-center">
-							<figure class="block-4-image">
-								<img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-							</figure>
-							<div class="block-4-text p-4">
-								<h3><a href="#">Tank Top</a></h3>
-								<p class="mb-0">Finding perfect t-shirt</p>
-								<p class="text-primary font-weight-bold">$50</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="block-4 text-center">
-							<figure class="block-4-image">
-								<img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-							</figure>
-							<div class="block-4-text p-4">
-								<h3><a href="#">Corater</a></h3>
-								<p class="mb-0">Finding perfect products</p>
-								<p class="text-primary font-weight-bold">$50</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="block-4 text-center">
-							<figure class="block-4-image">
-								<img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-							</figure>
-							<div class="block-4-text p-4">
-								<h3><a href="#">Polo Shirt</a></h3>
-								<p class="mb-0">Finding perfect products</p>
-								<p class="text-primary font-weight-bold">$50</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="block-4 text-center">
-							<figure class="block-4-image">
-								<img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-							</figure>
-							<div class="block-4-text p-4">
-								<h3><a href="#">T-Shirt Mockup</a></h3>
-								<p class="mb-0">Finding perfect products</p>
-								<p class="text-primary font-weight-bold">$50</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="block-4 text-center">
-							<figure class="block-4-image">
-								<img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-							</figure>
-							<div class="block-4-text p-4">
-								<h3><a href="#">Corater</a></h3>
-								<p class="mb-0">Finding perfect products</p>
-								<p class="text-primary font-weight-bold">$50</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
+				// Get the product ID or any other relevant data you need
+				var productId = @Model.Id; // Replace with the actual way you get the product ID
+
+				// Send an AJAX request to add the product to the cart
+				$.ajax({
+					url: '@Url.Action("AddToCart", "Cart")', // Use Url.Action to generate the correct URL
+					type: "POST",
+					data: { id: productId },
+					success: function (result) {
+						// Show the confirmation message
+						$("#cartConfirmation").show();
+
+						// You can also update the cart count or do other actions here
+					},
+					error: function (xhr, status, error) {
+						console.error("Error adding to cart: " + error); // Display the error message
+						console.log(xhr.responseText); // Display the response text received from the server
+					}
+				});
+			});
+		});
+	</script>
+
+</div>
 
 

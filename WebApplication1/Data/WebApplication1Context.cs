@@ -9,11 +9,16 @@ namespace WebApplication1.Data
 {
     public class WebApplication1Context : DbContext
     {
-        public WebApplication1Context (DbContextOptions<WebApplication1Context> options)
+        public WebApplication1Context()
+        {
+        }
+
+        public WebApplication1Context(DbContextOptions<WebApplication1Context> options)
             : base(options)
         {
         }
 
         public DbSet<WebApplication1.Models.Flavour> Flavour { get; set; } = default!;
+        public DbSet<WebApplication1.Models.CartItem> ShoppingCartItems { get; set; }
     }
 }

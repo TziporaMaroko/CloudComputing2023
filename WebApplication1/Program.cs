@@ -7,6 +7,8 @@ builder.Services.AddDbContext<WebApplication1Context>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Add services to the container.
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -24,5 +26,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseSession();
 
 app.Run();

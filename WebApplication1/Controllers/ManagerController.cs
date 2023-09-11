@@ -22,8 +22,7 @@ namespace WebApplication1.Controllers
         // GET: Flavours1
         public async Task<IActionResult> Index()
         {
-              return _context.Flavour != null ? 
-                          View(await _context.Flavour.ToListAsync()) :
+              return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
                           Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
         }
 
