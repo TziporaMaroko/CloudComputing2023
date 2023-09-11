@@ -41,9 +41,32 @@ public class CartController : Controller
 
         return View(model);
     }
+    public async Task<IActionResult> Checkout()
+    {
+        var cartItems = GetCartItems();
+        var flavours = new List<Flavour>();
 
+        foreach (var item in cartItems)
+        {
+            var flavour = GetFlavourById(item.FlavourId);
+            flavours.Add(flavour);
+        }
 
-    public async Task AddToCart(int id)
+        var model = new CartView
+        {
+            CartItems = cartItems,
+            Flavours = flavours
+        };
+
+        return View(model);
+    }
+
+    public IActionResult ThankYou()
+    {
+        return View();
+    }
+
+    public async Task AddToCart(int id/*, double size*/)
     {
         ShoppingCartId = GetCartId();
 
@@ -59,14 +82,10 @@ public class CartController : Controller
                 ItemId = Guid.NewGuid().ToString(),
                 FlavourId = id,
                 CartId = ShoppingCartId,
-                /*Flavour = new Flavour() { Description=fl.Description,
-                Name=fl.Name,
-                Id= fl.Id,
-                ImageURL= fl.ImageURL,
-                Price=fl.Price},*/
                 Quantity = 1,
-                DateCreated = DateTime.Now
-                // You can set Size and Price here if needed.
+                DateCreated = DateTime.Now,
+                /*Size= size,
+                Price= size*GetFlavourById(id).Price*/
             };
 
             _db.ShoppingCartItems.Add(cartItem);
@@ -76,16 +95,9 @@ public class CartController : Controller
             // If the item exists in the cart, increment the quantity.
             cartItem.Quantity++;
         }
-
-        try
-        {
-            await _db.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            // Log or inspect the exception to identify the issue.
-            // You can also add breakpoints here to debug the problem.
-        }
+        try { await _db.SaveChangesAsync(); }
+        catch(Exception ex) { }
+        
     }
 
     // Dispose of the database context properly.
