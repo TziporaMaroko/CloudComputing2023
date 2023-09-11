@@ -40,9 +40,6 @@ namespace WebApplication1.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -50,8 +47,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("ItemId");
-
-                    b.HasIndex("FlavourId");
 
                     b.ToTable("ShoppingCartItems");
                 });
@@ -82,17 +77,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Flavour");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.CartItem", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Flavour", "Flavour")
-                        .WithMany()
-                        .HasForeignKey("FlavourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Flavour");
                 });
 #pragma warning restore 612, 618
         }

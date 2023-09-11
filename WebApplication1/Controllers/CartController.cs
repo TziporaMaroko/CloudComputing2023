@@ -12,7 +12,7 @@ public class CartController : Controller
 {
     public string ShoppingCartId { get; set; }
 
-    public static  WebApplication1Context _db = new WebApplication1Context();
+    public WebApplication1Context _db = new WebApplication1Context();
 
     public const string CartSessionKey = "CartId";
 
@@ -25,8 +25,23 @@ public class CartController : Controller
     public async Task<IActionResult> Index()
     {
         var cartItems = GetCartItems();
-        return View(cartItems);
+        var flavours = new List<Flavour>();
+
+        foreach (var item in cartItems)
+        {
+            var flavour = GetFlavourById(item.FlavourId);
+            flavours.Add(flavour);
+        }
+
+        var model = new CartView
+        {
+            CartItems = cartItems,
+            Flavours = flavours
+        };
+
+        return View(model);
     }
+
 
     public async Task AddToCart(int id)
     {
@@ -62,7 +77,15 @@ public class CartController : Controller
             cartItem.Quantity++;
         }
 
-        await _db.SaveChangesAsync();
+        try
+        {
+            await _db.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            // Log or inspect the exception to identify the issue.
+            // You can also add breakpoints here to debug the problem.
+        }
     }
 
     // Dispose of the database context properly.
@@ -74,7 +97,7 @@ public class CartController : Controller
         }
         base.Dispose(disposing);
     }
-
+   
 
     public string GetCartId()
     {
@@ -105,7 +128,7 @@ public class CartController : Controller
             c => c.CartId == ShoppingCartId).ToList();
     }
 
-    public static Flavour GetFlavourById(int id)
+    public Flavour GetFlavourById(int id)
     {
         return _db.Flavour.SingleOrDefault(p => p.Id == id);
     }
