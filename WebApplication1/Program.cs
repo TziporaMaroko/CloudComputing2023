@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication1.Data;
+using ZeldaWebsite.Data;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<WebApplication1Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WebApplication1Context") ?? throw new InvalidOperationException("Connection string 'WebApplication1Context' not found.")));
+builder.Services.AddDbContext<ZeldaWebsiteContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ZeldaWebsiteContext") ?? throw new InvalidOperationException("Connection string 'ZeldaWebsiteContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

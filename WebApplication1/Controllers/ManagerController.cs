@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Models;
+using ZeldaWebsite.Data;
+using ZeldaWebsite.Models;
 
-namespace WebApplication1.Controllers
+namespace ZeldaWebsite.Controllers
 {
     public class ManagerController : Controller
     {
-        private readonly WebApplication1Context _context;
+        private readonly ZeldaWebsiteContext _context;
 
-        public ManagerController(WebApplication1Context context)
+        public ManagerController(ZeldaWebsiteContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
-                          Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
+                          Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
         }
 
         // GET: Flavours1/Details/5
@@ -142,7 +142,7 @@ namespace WebApplication1.Controllers
         {
             if (_context.Flavour == null)
             {
-                return Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
+                return Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
             }
             var flavour = await _context.Flavour.FindAsync(id);
             if (flavour != null)

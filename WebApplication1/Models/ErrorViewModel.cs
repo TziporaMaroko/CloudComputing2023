@@ -1,4 +1,4 @@
-namespace WebApplication1.Models
+namespace ZeldaWebsite.Models
 {
     public class ErrorViewModel
     {

@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Models;
+using ZeldaWebsite.Models;
 
-namespace WebApplication1.Data
+namespace ZeldaWebsite.Data
 {
-    public class WebApplication1Context : DbContext
+    public class ZeldaWebsiteContext : DbContext
     {
-        public WebApplication1Context()
+        public ZeldaWebsiteContext()
         {
         }
 
-        public WebApplication1Context(DbContextOptions<WebApplication1Context> options)
+        public ZeldaWebsiteContext(DbContextOptions<ZeldaWebsiteContext> options)
             : base(options)
         {
         }
 
-        public DbSet<WebApplication1.Models.Flavour> Flavour { get; set; } = default!;
-        public DbSet<WebApplication1.Models.CartItem> ShoppingCartItems { get; set; }
+        public DbSet<ZeldaWebsite.Models.Flavour> Flavour { get; set; } = default!;
+        public DbSet<ZeldaWebsite.Models.CartItem> ShoppingCartItems { get; set; }
     }
 }

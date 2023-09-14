@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace WebApplication1.Migrations
+namespace ZeldaWebsite.Migrations
 {
     public partial class CartItemsFixed : Migration
     {

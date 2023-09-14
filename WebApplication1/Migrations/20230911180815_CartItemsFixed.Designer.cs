@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication1.Data;
+using ZeldaWebsite.Data;
 
 #nullable disable
 
-namespace WebApplication1.Migrations
+namespace ZeldaWebsite.Migrations
 {
-    [DbContext(typeof(WebApplication1Context))]
+    [DbContext(typeof(ZeldaWebsiteContext))]
     [Migration("20230911180815_CartItemsFixed")]
     partial class CartItemsFixed
     {
@@ -24,7 +24,7 @@ namespace WebApplication1.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("WebApplication1.Models.CartItem", b =>
+            modelBuilder.Entity("ZeldaWebsite.Models.CartItem", b =>
                 {
                     b.Property<string>("ItemId")
                         .HasColumnType("nvarchar(450)");
@@ -53,7 +53,7 @@ namespace WebApplication1.Migrations
                     b.ToTable("ShoppingCartItems");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Flavour", b =>
+            modelBuilder.Entity("ZeldaWebsite.Models.Flavour", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

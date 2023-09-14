@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication1.Data;
+using ZeldaWebsite.Data;
 
 #nullable disable
 
-namespace WebApplication1.Migrations
+namespace ZeldaWebsite.Migrations
 {
-    [DbContext(typeof(WebApplication1Context))]
+    [DbContext(typeof(ZeldaWebsiteContext))]
     [Migration("20230903092738_InitialCreate")]
     partial class InitialCreate
     {
@@ -23,7 +23,7 @@ namespace WebApplication1.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("WebApplication1.Models.Flavour", b =>
+            modelBuilder.Entity("ZeldaWebsite.Models.Flavour", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

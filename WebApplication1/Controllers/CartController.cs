@@ -3,20 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Text;
-using WebApplication1.Data;
-using WebApplication1.Models;
+using ZeldaWebsite.Data;
+using ZeldaWebsite.Models;
 
-namespace WebApplication1.Controllers;
+namespace ZeldaWebsite.Controllers;
 
 public class CartController : Controller
 {
     public string ShoppingCartId { get; set; }
 
-    public WebApplication1Context _db = new WebApplication1Context();
+    public ZeldaWebsiteContext _db = new ZeldaWebsiteContext();
 
     public const string CartSessionKey = "CartId";
 
-    public CartController(WebApplication1Context context)
+    public CartController(ZeldaWebsiteContext context)
     {
         _db = context;
     }

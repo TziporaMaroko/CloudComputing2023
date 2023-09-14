@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using WebApplication1.Data;
-using WebApplication1.Models;
+using ZeldaWebsite.Data;
+using ZeldaWebsite.Models;
 
-namespace WebApplication1.Controllers
+namespace ZeldaWebsite.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly WebApplication1Context _context;
-        public HomeController(ILogger<HomeController> logger, WebApplication1Context context)
+        private readonly ZeldaWebsiteContext _context;
+        public HomeController(ILogger<HomeController> logger, ZeldaWebsiteContext context)
         {
             _logger = logger;
             _context = context;
@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
         {
             return _context.Flavour != null ?
                          View(await _context.Flavour.ToListAsync()) :
-                         Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
+                         Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
         }
 
         public IActionResult About()
@@ -55,7 +55,7 @@ namespace WebApplication1.Controllers
         {
             return _context.Flavour != null ?
                           View(await _context.Flavour.ToListAsync()) :
-                          Problem("Entity set 'WebApplication1Context.Flavour'  is null.");
+                          Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
