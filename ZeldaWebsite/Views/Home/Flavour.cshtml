@@ -33,29 +33,25 @@
 				<div class="mb-1 d-flex">
 					<label for="option-sm" class="d-flex mr-3 mb-3">
 						<span class="d-inline-block mr-2" style="top:-2px; position: relative;">
-							<input type="radio" id="option-sm" name="shop-sizes" value="0.25"> <!-- Specify the value for this size -->
+							<input type="radio" id="option-sm" name="shop-sizes"
+								   data-id="@Model.Id" data-price="@Model.Price" data-size="0.25">
 						</span>
 						<span class="d-inline-block text-black">1/4 Liter</span>
 					</label>
-					<label for="option-md" class="d-flex mr-3 mb-3">
+					<label for="option-sm" class="d-flex mr-3 mb-3">
 						<span class="d-inline-block mr-2" style="top:-2px; position: relative;">
-							<input type="radio" id="option-md" name="shop-sizes" value="0.5"> <!-- Specify the value for this size -->
+							<input type="radio" id="option-sm" name="shop-sizes"
+								   data-id="@Model.Id" data-price="@Model.Price" data-size="0.5">
 						</span>
 						<span class="d-inline-block text-black">1/2 Liter</span>
 					</label>
-					<label for="option-lg" class="d-flex mr-3 mb-3">
+					<label for="option-sm" class="d-flex mr-3 mb-3">
 						<span class="d-inline-block mr-2" style="top:-2px; position: relative;">
-							<input type="radio" id="option-lg" name="shop-sizes" value="1"> <!-- Specify the value for this size -->
+							<input type="radio" id="option-sm" name="shop-sizes"
+								   data-id="@Model.Id" data-price="@Model.Price" data-size="1">
 						</span>
-						<span class="d-inline-block text-black">Liter</span>
+						<span class="d-inline-block text-black">1 Liter</span>
 					</label>
-
-				</div>
-				<div class="mb-5">
-					<div class="quantity buttons_added">
-						<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
-					</div>
-					
 				</div>
 				<div class="row justify-content-left ml-1">
 					<div class="room-btn">
@@ -72,18 +68,26 @@
 	<script>
 		$(document).ready(function () {
 			$("#addToCartButton").on("click", function (e) {
-				e.preventDefault(); // Prevent the default form submission
+				e.preventDefault();
 
-				// Get the product ID or any other relevant data you need
-				var productId = @Model.Id; 
+				// Get the selected radio button
+				var selectedRadioButton = $("input[name='shop-sizes']:checked");
 
-				// Get the selected size
-				var selectedSize = $("input[name='shop-sizes']:checked").val();
+				// Check if a radio button is selected
+				if (selectedRadioButton.length === 0) {
+					alert("Please select a size.");
+					return;
+				}
+
+				// Extract data attributes from the selected radio button
+				var productId = selectedRadioButton.data("id");
+				var selectedSize = selectedRadioButton.data("size");
+
 				// Send an AJAX request to add the product to the cart
 				$.ajax({
-					url: '@Url.Action("AddToCart", "Cart")', // Use Url.Action to generate the correct URL
+					url: '@Url.Action("AddToCart", "Cart")',
 					type: "POST",
-					data: { id: productId },
+					data: { id: productId, size: selectedSize },
 					success: function (result) {
 						// Show the confirmation message
 						$("#cartConfirmation").show();
@@ -91,12 +95,13 @@
 						// You can also update the cart count or do other actions here
 					},
 					error: function (xhr, status, error) {
-						console.error("Error adding to cart: " + error); // Display the error message
-						console.log(xhr.responseText); // Display the response text received from the server
+						console.error("Error adding to cart: " + error);
+						console.log(xhr.responseText);
 					}
 				});
 			});
 		});
+
 	</script>
 </div>
 

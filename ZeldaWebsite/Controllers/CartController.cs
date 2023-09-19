@@ -66,7 +66,7 @@ public class CartController : Controller
         return View();
     }
 
-    public async Task AddToCart(int id/*, double size*/)
+    public async Task AddToCart(int id, double size)
     {
         ShoppingCartId = GetCartId();
 
@@ -84,8 +84,8 @@ public class CartController : Controller
                 CartId = ShoppingCartId,
                 Quantity = 1,
                 DateCreated = DateTime.Now,
-                /*Size= size,
-                Price= size*GetFlavourById(id).Price*/
+                Size= size,
+                Price= size*GetFlavourById(id).Price
             };
 
             _db.ShoppingCartItems.Add(cartItem);
@@ -93,7 +93,9 @@ public class CartController : Controller
         else
         {
             // If the item exists in the cart, increment the quantity.
-            cartItem.Quantity++;
+            cartItem.Size+=size;
+            cartItem.Price += size * GetFlavourById(id).Price;
+            cartItem.Price.ToString("F3");
         }
         try { await _db.SaveChangesAsync(); }
         catch(Exception ex) { }
@@ -144,6 +146,9 @@ public class CartController : Controller
     {
         return _db.Flavour.SingleOrDefault(p => p.Id == id);
     }
+
+
+
 }
 
 
