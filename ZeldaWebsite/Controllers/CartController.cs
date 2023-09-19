@@ -61,11 +61,7 @@ public class CartController : Controller
         return View(model);
     }
 
-    public IActionResult ThankYou()
-    {
-        return View();
-    }
-
+   
     public async Task AddToCart(int id, double size)
     {
         ShoppingCartId = GetCartId();
