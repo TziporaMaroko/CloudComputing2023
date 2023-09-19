@@ -41,27 +41,28 @@ public class CartController : Controller
 
         return View(model);
     }
-    public async Task<IActionResult> Checkout()
-    {
-        var cartItems = GetCartItems();
-        var flavours = new List<Flavour>();
+	public async Task<IActionResult> Checkout()
+	{
+		var cartItems = GetCartItems();
+		var flavours = new List<Flavour>();
 
-        foreach (var item in cartItems)
-        {
-            var flavour = GetFlavourById(item.FlavourId);
-            flavours.Add(flavour);
-        }
+		foreach (var item in cartItems)
+		{
+			var flavour = GetFlavourById(item.FlavourId);
+			flavours.Add(flavour);
+		}
 
-        var model = new CartView
-        {
-            CartItems = cartItems,
-            Flavours = flavours
-        };
+		var cart = new CartView
+		{
+			CartItems = cartItems,
+			Flavours = flavours
+		};
+         Order order=new Order() { products = cart };
 
-        return View(model);
-    }
-
-   
+		// To open a view from a different controller
+		return View("~/Views/Order/Checkout.cshtml",order);
+	}
+	
     public async Task AddToCart(int id, double size)
     {
         ShoppingCartId = GetCartId();

@@ -1,138 +1,267 @@
-﻿@model Order
+﻿@*@model Order
 @{
-    ViewData["Title"] = "Checkout";
-    Layout = "~/Views/Shared/ProjectLayout.cshtml";
+	ViewData["Title"] = "Checkout";
+	Layout = "~/Views/Shared/ProjectLayout.cshtml";
 }
 
 <main>
-    <!-- breadcrumb Start-->
-    <div class="page-notification">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li class="breadcrumb-item"><a asp-action="Index">Cart</a></li>
-                            <li class="breadcrumb-item"><a href="#">Checkout</a></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="site-section">
-      <div class="container">
-        
-        <div class="row">
-          <div class="col-md-6 mb-5 mb-md-0">
-            <h2 class="h3 mb-3 text-black">Billing Details</h2>
-            <div class="p-3 p-lg-5 border">
-              
-              <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname">
-                </div>
-                <div class="col-md-6">
-                  <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname">
-                </div>
-              </div>
+	<!-- breadcrumb Start-->
+	<div class="page-notification">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+							<li class="breadcrumb-item"><a asp-action="Index">Cart</a></li>
+							<li class="breadcrumb-item"><a href="#">Checkout</a></li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="site-section">
+		<div class="container">
+			<form asp-controller="Order" asp-action="CreateOrder">
+				<div class="row">
+					<div class="col-md-6 mb-5 mb-md-0">
+						<h2 class="h3 mb-3 text-black">Billing Details</h2>
+						<div class="p-3 p-lg-5 border">
 
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_address" name="c_address" placeholder="City">
+							<div class="form-group row">
+								<div class="col-md-6">
+									<label asp-for="FirstName" class="text-black">First Name <span class="text-danger">*</span></label>
+									<input asp-for="FirstName" type="text" class="form-control" id="c_fname" name="first">
+								</div>
+								<div class="col-md-6">
+									<label asp-for="LastName" class="text-black">Last Name <span class="text-danger">*</span></label>
+									<input asp-for="LastName" type="text" class="form-control" id="c_lname" name="c_lname">
+								</div>
+							</div>
 
-                                <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
-                </div>
-              </div>
-                        
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-              </div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<label asp-for="City" class="text-black">Address <span class="text-danger">*</span></label>
+									<input asp-for="City" type="text" class="form-control" id="c_address" name="c_address" placeholder="City">
 
-              <div class="form-group row mb-5">
-                <div class="col-md-6">
-                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address">
-                </div>
-                <div class="col-md-6">
-                  <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
-                </div>
-              </div>
 
-              <!--<div class="form-group">
-                <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account"> Create an account?</label>
-                <div class="collapse" id="create_an_account">
-                  <div class="py-2">
-                    <p class="mb-3">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
-                    <div class="form-group">
-                      <label for="c_account_password" class="text-black">Account Password</label>
-                      <input type="email" class="form-control" id="c_account_password" name="c_account_password" placeholder="">
-                    </div>
-                  </div>
-                </div>
-                        </div>-->
+								</div>
+							</div>
+							<div class="form-group">
+								<input asp-for="Street" type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
+							</div>
+							<div class="form-group">
+								<input asp-for="HouseNumber" type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+							</div>
 
-              <div class="form-group">
-                <label for="c_order_notes" class="text-black">Order Notes</label>
-                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
-              </div>
+							<div class="form-group row mb-5">
+								<div class="col-md-6">
+									<label asp-for="Email" class="text-black">Email Address <span class="text-danger">*</span></label>
+									<input asp-for="Email" type="text" class="form-control" id="c_email_address" name="c_email_address">
+								</div>
+								<div class="col-md-6">
+									<label asp-for="PhoneNumber" class="text-black">Phone <span class="text-danger">*</span></label>
+									<input asp-for="PhoneNumber" type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
+								</div>
+							</div>
 
-            </div>
-          </div>
-          <div class="col-md-6">
+							<!--<div class="form-group">
+							  <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account"> Create an account?</label>
+							  <div class="collapse" id="create_an_account">
+								<div class="py-2">
+								  <p class="mb-3">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
+								  <div class="form-group">
+									<label for="c_account_password" class="text-black">Account Password</label>
+									<input type="email" class="form-control" id="c_account_password" name="c_account_password" placeholder="">
+								  </div>
+								</div>
+							  </div>
+									  </div>-->
 
-            <div class="row mb-5">
-              <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Your Order</h2>
-                <div class="p-3 p-lg-5 border">
-                  <table class="table site-block-order-table mb-5">
-                    <thead>
-                      <th>Product</th>
-                      <th>Total</th>
-                    </thead>
-                    <tbody>
-                      @for (var i = 0; i < Model.products.CartItems.Count; i++){
-                          var cartItem = Model.products.CartItems[i];
-                          var flavour = Model.products.Flavours[i];
-                      <tr>
-                        <td>@flavour.Name <strong class="mx-2">x</strong> @cartItem.Size Liter</td>
-                        <td>@cartItem.Price.ToString("F2")$</td>
-                      </tr>
-                     
-                      }
-                       <tr>
-                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold"><strong>@Model.products.Total().ToString("F2")$</strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
+							<div class="form-group">
+								<label for="c_order_notes" class="text-black">Order Notes</label>
+								<textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
+							</div>
 
-                  <div class="border p-3 mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+						</div>
+					</div>
 
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
+					<div class="col-md-6">
 
-                  <div class="form-group">
-                    <a class="btn" asp-action="ThankYou">Place Order</a>
-                  </div>
+						<div class="row mb-5">
+							<div class="col-md-12">
+								<h2 class="h3 mb-3 text-black">Your Order</h2>
+								<div class="p-3 p-lg-5 border">
+									<table class="table site-block-order-table mb-5">
+										<thead>
+										<th>Product</th>
+										<th>Total</th>
+										</thead>
+										<tbody>
+											@for (var i = 0; i < Model.products.CartItems.Count; i++)
+											{
+												var cartItem = Model.products.CartItems[i];
+												var flavour = Model.products.Flavours[i];
+												<tr>
+													<td>@flavour.Name <strong class="mx-2">x</strong> @cartItem.Size Liter</td>
+													<td>@cartItem.Price.ToString("F2")$</td>
+												</tr>
 
-                </div>
-              </div>
-            </div>
+											}
+											<tr>
+												<td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+												<td class="text-black font-weight-bold"><strong>@Model.products.Total().ToString("F2")$</strong></td>
+											</tr>
+										</tbody>
+									</table>
 
-          </div>
-        </div>
-        <!-- </form> -->
-      </div>
-    </div>
+									<div class="border p-3 mb-5">
+										<h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+
+										<div class="collapse" id="collapsepaypal">
+											<div class="py-2">
+												<p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<input type="submit" value="Place Order" class="btn" />
+										
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- </form> -->
+	
+</main>*@
+@model Order
+@{
+	ViewData["Title"] = "Checkout";
+	Layout = "~/Views/Shared/ProjectLayout.cshtml";
+}
+
+<main>
+	<!-- Breadcrumb Start-->
+	<div class="page-notification">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb justify-content-center">
+							<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+							<li class="breadcrumb-item"><a asp-action="Index">Cart</a></li>
+							<li class="breadcrumb-item"><a href="#">Checkout</a></li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="site-section">
+		<div class="container">
+			<form asp-controller="Order" asp-action="CreateOrder" method="post">
+				@Html.AntiForgeryToken()
+				<div class="row">
+					<div class="col-md-6 mb-5 mb-md-0">
+						<h2 class="h3 mb-3 text-black">Billing Details</h2>
+						<div class="p-3 p-lg-5 border">
+							<div class="form-group row">
+								<div class="col-md-6">
+									<label asp-for="FirstName" class="text-black">First Name <span class="text-danger">*</span></label>
+									<input asp-for="FirstName" type="text" class="form-control" id="c_fname">
+								</div>
+								<div class="col-md-6">
+									<label asp-for="LastName" class="text-black">Last Name <span class="text-danger">*</span></label>
+									<input asp-for="LastName" type="text" class="form-control" id="c_lname">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-12">
+									<label asp-for="City" class="text-black">Address <span class="text-danger">*</span></label>
+									<input asp-for="City" type="text" class="form-control" id="c_address" placeholder="City">
+								</div>
+							</div>
+							<div class="form-group">
+								<input asp-for="Street" type="text" class="form-control" placeholder="Street address">
+							</div>
+							<div class="form-group">
+								<input asp-for="HouseNumber" type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+							</div>
+
+							<div class="form-group row mb-5">
+								<div class="col-md-6">
+									<label asp-for="Email" class="text-black">Email Address <span class="text-danger">*</span></label>
+									<input asp-for="Email" type="text" class="form-control" id="c_email_address">
+								</div>
+								<div class="col-md-6">
+									<label asp-for="PhoneNumber" class="text-black">Phone <span class="text-danger">*</span></label>
+									<input asp-for="PhoneNumber" type="text" class="form-control" id="c_phone" placeholder="Phone Number">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="c_order_notes" class="text-black">Order Notes</label>
+								<textarea  class="form-control" id="c_order_notes" cols="30" rows="5" placeholder="Write your notes here..."></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="row mb-5">
+							<div class="col-md-12">
+								<h2 class="h3 mb-3 text-black">Your Order</h2>
+								<div class="p-3 p-lg-5 border">
+									<table class="table site-block-order-table mb-5">
+										<thead>
+										<th>Product</th>
+										<th>Total</th>
+										</thead>
+										<tbody>
+											@for (var i = 0; i < Model.products.CartItems.Count; i++)
+											{
+												var cartItem = Model.products.CartItems[i];
+												var flavour = Model.products.Flavours[i];
+												<tr>
+													<td>@flavour.Name <strong class="mx-2">x</strong> @cartItem.Size Liter</td>
+													<td>@cartItem.Price.ToString("F2")$</td>
+												</tr>
+
+											}
+											<tr>
+												<td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+												<td class="text-black font-weight-bold"><strong>@Model.products.Total().ToString("F2")$</strong></td>
+											</tr>
+										</tbody>
+									</table>
+									<label asp-for="products" type="text" class="form-control" id="c_products" style="visibility:hidden;" >@Model.products</label>
+									<div class="border p-3 mb-5">
+										<h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+
+										<div class="collapse" id="collapsepaypal">
+											<div class="py-2">
+												<p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<input type="submit" value="Place Order" class="btn" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </main>
