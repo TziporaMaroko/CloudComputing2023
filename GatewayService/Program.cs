@@ -1,4 +1,4 @@
-namespace GatewayService
+namespace GatewayAPI
 {
     public class Program
     {
@@ -13,6 +13,13 @@ namespace GatewayService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddHttpClient("BackendServiceName", client =>
+            {
+                client.BaseAddress = new Uri("https://backend-service-url/");
+                // Configure other HttpClient settings here
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,8 +29,15 @@ namespace GatewayService
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
             app.UseAuthorization();
-
+            app.UseEndpoints(endpoints =>//gpt's addition
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
 
             app.MapControllers();
 

@@ -1,4 +1,4 @@
-namespace GatewayService
+namespace GatewayAPI
 {
     public class WeatherForecast
     {

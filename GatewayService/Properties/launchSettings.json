@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "GatewayService": {
+    "GatewayAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
