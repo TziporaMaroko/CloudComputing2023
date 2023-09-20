@@ -20,5 +20,6 @@ namespace ZeldaWebsite.Data
 
         public DbSet<ZeldaWebsite.Models.Flavour> Flavour { get; set; } = default!;
         public DbSet<ZeldaWebsite.Models.CartItem> ShoppingCartItems { get; set; }
-    }
+		public DbSet<ZeldaWebsite.Models.Order> Orders { get; set; }
+	}
 }

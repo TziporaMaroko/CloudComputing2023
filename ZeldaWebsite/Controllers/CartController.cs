@@ -52,12 +52,13 @@ public class CartController : Controller
 			flavours.Add(flavour);
 		}
 
-		var cart = new CartView
+		var cartView = new CartView
 		{
 			CartItems = cartItems,
 			Flavours = flavours
 		};
-         Order order=new Order() { products = cart };
+
+		Order order=new Order() { Products = cartItems, Total=cartView.Total() };
 
 		// To open a view from a different controller
 		return View("~/Views/Order/Checkout.cshtml",order);
@@ -99,6 +100,8 @@ public class CartController : Controller
         
     }
 
+
+
     // Dispose of the database context properly.
     protected override void Dispose(bool disposing)
     {
@@ -108,9 +111,23 @@ public class CartController : Controller
         }
         base.Dispose(disposing);
     }
-   
 
-    public string GetCartId()
+	public async Task<IActionResult> RemoveFromCart(int id)
+	{
+		ShoppingCartId = GetCartId();
+
+		var cartItem = await _db.ShoppingCartItems.SingleOrDefaultAsync(
+			c => c.CartId == ShoppingCartId && c.FlavourId == id);
+
+		if (cartItem != null)
+		{
+			_db.ShoppingCartItems.Remove(cartItem);
+			await _db.SaveChangesAsync();
+		}
+        return RedirectToAction("Index");
+	}
+
+	public string GetCartId()
     {
         if (HttpContext.Session.Get(CartSessionKey) == null)
         {
@@ -143,7 +160,10 @@ public class CartController : Controller
     {
         return _db.Flavour.SingleOrDefault(p => p.Id == id);
     }
-
+	public string GetFlavourNameById(int id)
+	{
+		return _db.Flavour.SingleOrDefault(p => p.Id == id).Name;
+	}
 
 
 }

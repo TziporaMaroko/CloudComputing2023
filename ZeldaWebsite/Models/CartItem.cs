@@ -19,5 +19,7 @@ namespace ZeldaWebsite.Models
 
         public int FlavourId { get; set; }
 
+
+
     }
 }

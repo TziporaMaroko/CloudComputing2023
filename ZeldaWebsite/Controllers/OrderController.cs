@@ -16,15 +16,17 @@ namespace ZeldaWebsite.Controllers
         }
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CreateOrder([Bind("Id,FirstName,LastName,PhoneNumber,Email,Street,City,HouseNumber,products,Date,FeelsLike,Humidity,IsItHoliday,Day")] Order order)
+		public async Task<IActionResult> CreateOrder([Bind("Id,FirstName,LastName,PhoneNumber,Email,Street,City,HouseNumber,Products,Date,FeelsLike,Humidity,IsItHoliday,Day")] Order order)
 		{
-			if (ModelState.IsValid)
-			{
+			order.Date= DateTime.Now;
+
+			/*if (ModelState.IsValid)
+			{*/
 				_db.Add(order);
 				await _db.SaveChangesAsync();
 				return RedirectToAction("ThankYou");
-			}
-			return View(order);
+			
+			//return View(order);
 		}
 
 		public IActionResult ThankYou()

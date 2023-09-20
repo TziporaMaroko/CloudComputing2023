@@ -25,9 +25,15 @@ namespace ZeldaWebsite.Controllers
               return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
                           Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
         }
+		public async Task<IActionResult> Dashboard()
+		{
+            return _context.Orders != null ?
+						 View(await _context.Orders.ToListAsync()) :
+						 Problem("Entity set 'ZeldaWebsiteContext.Orders'  is null.");
+		}
 
-        // GET: Flavours1/Details/5
-        public async Task<IActionResult> Details(int? id)
+		// GET: Flavours1/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Flavour == null)
             {
