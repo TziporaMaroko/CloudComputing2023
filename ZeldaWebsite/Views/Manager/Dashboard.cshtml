@@ -7,30 +7,19 @@
 <!-- Yearly Sales -->
 <!-- ============================================================== -->
 <div class="row">
-	<div class="col-lg-8 mb-10">
+	<div class="col-lg-8 mb-10 ml-10">
+		<div>
+			<h4 class="card-title">Graph Overview</h4>
+		</div>
 		<div class="card oh">
 			<div class="card-body">
-				<div class="d-flex m-b-30 align-items-center no-block">
-					<h5 class="card-title ">Yearly Sales</h5>
-					<div class="ml-auto">
-						<ul class="list-inline font-12">
-							<li><i class="fa fa-circle text-info"></i> Iphone</li>
-							<li><i class="fa fa-circle text-primary"></i> Ipad</li>
-						</ul>
-					</div>
-				</div>
-				<div id="morris-area-chart" style="height: 350px;"></div>
+				<div id="morris-area-chart" style="height: 350px;">@Html.Raw(ViewBag.MonthlyOrdersJson)</div>
+
 			</div>
 			<div class="card-body bg-light">
 				<div class="row text-center m-b-20">
 					<div class="col-lg-4 col-md-4 m-t-20">
-						<h2 class="m-b-0 font-light">6000</h2><span class="text-muted">Total sale</span>
-					</div>
-					<div class="col-lg-4 col-md-4 m-t-20">
-						<h2 class="m-b-0 font-light">4000</h2><span class="text-muted">Iphone</span>
-					</div>
-					<div class="col-lg-4 col-md-4 m-t-20">
-						<h2 class="m-b-0 font-light">2000</h2><span class="text-muted">Ipad</span>
+						<h2 class="m-b-0 font-light">@Model.Count</h2><span class="text-muted">Total orders</span>
 					</div>
 				</div>
 			</div>
@@ -43,13 +32,13 @@
 	<!-- ============================================================== -->
 	<div class="row">
 		<!-- column -->
-		<div class="col-12">
+		<div class="col-12 ml-10 mb-10">
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex">
 						<div>
-							<h5 class="card-title">Sales Overview</h5>
-							<h6 class="card-subtitle">Check the monthly sales </h6>
+							<h4 class="card-title">Sales Overview</h4>
+							<h5 class="card-subtitle">Check the monthly sales </h5>
 						</div>
 						<div class="ml-auto">
 							<select class="custom-select b-0">
@@ -65,8 +54,7 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th class="text-center">#</th>
-								<th>Order ID</th>
+								<th>ID</th>
 								<th>First Name</th>
 								<th>Last Name</th>
 								<th>Date</th>
@@ -80,8 +68,8 @@
 									<td class="text-center">@order.Id</td>
 									<td class="txt-oflo">@order.FirstName</td>
 									<td class="txt-oflo">@order.LastName</td>
-									<td><span class="text-success">@order.Total$</span</td>
-									<!-- Add other columns as needed -->
+									<td class="txt-oflo">@order.Date.Day/@order.Date.Month/@order.Date.Year</td>
+									<td><span class="text-success">@order.Total.ToString("F2")$</span></td>
 								</tr>
 							}
 						</tbody>

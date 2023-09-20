@@ -105,6 +105,7 @@
 											<tr>
 												<td class="text-black font-weight-bold"><strong>Order Total</strong></td>
 												<td class="text-black font-weight-bold"><strong>@Model.Total.ToString("F2")$</strong></td>
+												<input type="hidden" asp-for="Total" value="@Model.Total" />
 											</tr>
 										</tbody>
 									</table>
