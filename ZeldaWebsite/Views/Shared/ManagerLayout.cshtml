@@ -62,7 +62,6 @@
                                       <li><a asp-controller="Manager" asp-action="Index">Flavours</a></li>
                                         <li><a asp-controller="Manager" asp-action="Dashboard">Dashboard</a></li>
                                         <li><a asp-controller="User" asp-action="Index">Admins</a></li>
-                                        <li><a asp-controller="Home" asp-action="Index">Customer Mode</a></li>
                                    </ul>
                                 </nav>
                             </div>
@@ -82,7 +81,7 @@
                                             <i class="ti-search"></i>
                                         </div>
                                     </li>
-                                    
+                                    <li><a asp-controller="Home" asp-action="Index" class="card-stor">Log Out</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -101,38 +100,56 @@
         @RenderBody()
     </div>
     <footer>
-    <!-- Footer Start-->
-    <div class="footer-area footer-padding">
-        <div class="container-fluid ">
-            <div class="row d-flex justify-content-between">
-                <div class="col-xl-3 col-lg-3 col-md-8 col-sm-8">
-                 <div class="single-footer-caption mb-50">
-                   <div class="single-footer-caption mb-30">
-                      <!-- logo -->
-                      <div class="footer-logo mb-35">
-                       <a href="index.html"><img src="~/assets/img/logo/logo2_footer.png" alt=""></a>
-                   </div>
-                   <div class="footer-tittle">
-                       <div class="footer-pera">
-                           <p>Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla.</p>
-                       </div>
-                   </div>
-                   <!-- social -->
-                   <div class="footer-social">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Social Links -->
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-tittle">
+                                <h4>Social</h4>
+                                <div class="footer-social">
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-tittle">
+                                <h4>Quick links</h4>
+                                <ul>
+                                    <li><a asp-controller="Home" asp-action="Flavours">Our Flavours</a></li>
+                                    <li><a href="#">Shippment Policy</a></li>
+                                    <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Get in Touch -->
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-tittle">
+                                <h4>Get in touch</h4>
+                                <ul>
+                                    <li><a href="#">054 845 5118</a></li>
+                                    <li><a href="#">tziporamaroko@gmail.com</a></li>
+                                    <li><a href="#">Campus Lustig, Ramat Gan</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
- 
-</div>
-</div>
-</div>
-
-  <!-- Footer End-->
-</footer>
+        <!-- Footer End-->
+    </footer>
     <!--? Search model Begin -->
     <div class="search-model-box">
         <div class="h-100 d-flex align-items-center justify-content-center">
