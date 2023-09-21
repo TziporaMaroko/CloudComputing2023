@@ -35,11 +35,17 @@ namespace ZeldaWebsite.Controllers
 			.Select(g => new
 			{
 				   Period = $"{g.Key.Month:D2}/{g.Key.Year}",
-				   OrdersCount = g.Count()
+				   OrdersCount = g.Count(),
+				   OrdersTotal= g.Sum(o => o.Total).ToString("F2")
 			})
 			.ToList();
 
-			ViewBag.MonthlyOrdersJson = JsonConvert.SerializeObject(monthlyOrders);
+			ViewBag.MonthlyOrdersJson = JsonConvert.SerializeObject(monthlyOrders.Select(g => new
+			{
+				period = g.Period,
+				ordersCount = g.OrdersCount,
+				ordersTotal = g.OrdersTotal
+			}));
 
 			return _context.Orders != null ?
 				View(await _context.Orders.ToListAsync()) :

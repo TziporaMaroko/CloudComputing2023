@@ -112,12 +112,12 @@ public class CartController : Controller
         base.Dispose(disposing);
     }
 
-	public async Task<IActionResult> RemoveFromCart(int id)
+	public async Task<IActionResult> RemoveFromCart(string id)
 	{
 		ShoppingCartId = GetCartId();
 
 		var cartItem = await _db.ShoppingCartItems.SingleOrDefaultAsync(
-			c => c.CartId == ShoppingCartId && c.FlavourId == id);
+			c => c.CartId == ShoppingCartId && c.ItemId == id);
 
 		if (cartItem != null)
 		{
@@ -128,27 +128,30 @@ public class CartController : Controller
 	}
 
 	public string GetCartId()
-    {
-        if (HttpContext.Session.Get(CartSessionKey) == null)
-        {
-            if (!string.IsNullOrWhiteSpace(User.Identity.Name))
-            {
-                var bytes1 = Encoding.UTF8.GetBytes(User.Identity.Name);
-                HttpContext.Session.Set(CartSessionKey, bytes1);
-            }
-            else
-            {
-                // Generate a new random GUID using System.Guid class.
-                Guid tempCartId = Guid.NewGuid();
-                var bytes1 = Encoding.UTF8.GetBytes(tempCartId.ToString());
-                HttpContext.Session.Set(CartSessionKey, bytes1);
-            }
-        }
-        var bytes= HttpContext.Session.Get(CartSessionKey);
+	{
+		if (HttpContext.Session.Get(CartSessionKey) == null || TempData["OrderCompleted"] != null)
+		{
+			if (!string.IsNullOrWhiteSpace(User.Identity.Name))
+			{
+				var bytes1 = Encoding.UTF8.GetBytes(User.Identity.Name);
+				HttpContext.Session.Set(CartSessionKey, bytes1);
+			}
+			else
+			{
+				// Generate a new random GUID using System.Guid class.
+				Guid tempCartId = Guid.NewGuid();
+				var bytes1 = Encoding.UTF8.GetBytes(tempCartId.ToString());
+				HttpContext.Session.Set(CartSessionKey, bytes1);
+			}
+
+			// Remove the TempData flag to indicate that the order is not completed.
+			TempData.Remove("OrderCompleted");
+		}
+
+		var bytes = HttpContext.Session.Get(CartSessionKey);
 		return Encoding.UTF8.GetString(bytes);
 	}
-
-    public List<CartItem> GetCartItems()
+	public List<CartItem> GetCartItems()
     {
         ShoppingCartId = GetCartId();
 

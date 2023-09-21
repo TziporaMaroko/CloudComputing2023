@@ -55,30 +55,3 @@
 
 //});
 
-$(function () {
-    "use strict";
-
-    // Retrieve the monthly order data from the hidden div
-    var monthlyOrdersData = document.getElementById("monthlyOrdersData").textContent;
-    var monthlyOrders = JSON.parse(monthlyOrdersData);
-
-
-    // Create a line chart using Morris.js
-    Morris.Area({
-        element: 'morris-area-chart', // Change this to the ID of your chart container
-        data: monthlyOrders,
-        xkey: 'Period',
-        ykeys: ['OrdersCount'],
-        labels: ['Monthly Orders'],
-        pointSize: 0,
-        fillOpacity: 0,
-        pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
-        behaveLikeLine: true,
-        gridLineColor: '#f6f6f6',
-        lineWidth: 1,
-        hideHover: 'auto',
-        lineColors: ['#009efb', '#7460ee', '#009efb'],
-        resize: true
-    });
-});
-

@@ -24,11 +24,12 @@ namespace ZeldaWebsite.Controllers
 			{*/
 				_db.Add(order);
 				await _db.SaveChangesAsync();
+				TempData["OrderCompleted"] = true;
 				return RedirectToAction("ThankYou");
 			
 			//return View(order);
 		}
-
+		
 		public IActionResult ThankYou()
         {
             return View();
