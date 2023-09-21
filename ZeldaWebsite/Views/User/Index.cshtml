@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ZeldaWebsite.Models.User>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+
+   // if (StaticFields.IsUser)
+       // Layout = "~/Views/Shared/_Layout2.cshtml";
+   // else
+        //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Home.css" />
+</head>
+<section class="our_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                <span>
+                    Users
+                </span>
+            </h2>
+            <a asp-action="Create"style="color:darkblue">Create New</a>
+        </div>
+        
+        <div class="mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Password)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" style="color:darkblue">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id" style="color:darkblue">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id" style="color:darkblue">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

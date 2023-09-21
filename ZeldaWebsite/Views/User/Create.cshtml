@@ -1,0 +1,55 @@
+﻿@model ZeldaWebsite.Models.User
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+
+    // if (StaticFields.IsUser)
+    // Layout = "~/Views/Shared/_Layout2.cshtml";
+    // else
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Home.css" />
+</head>
+
+<section class="contact_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <div class="row">
+                <h2>
+                    <span>
+                        Create User
+                    </span>
+                </h2>
+            </div>
+        </div>
+        <div class="layout_padding">
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="Create">
+                        <div class="contact_form-container">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                @*<label asp-for="UserName" class="control-label"></label>*@
+                                <input asp-for="UserName" class="form-control" placeholder="Name" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                @*<label asp-for="Password" class="control-label"></label>*@
+                                <input asp-for="Password" class="form-control" placeholder="Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" style="background-color: #ad927e; font-size:large" class="btn btn-primary" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</section>

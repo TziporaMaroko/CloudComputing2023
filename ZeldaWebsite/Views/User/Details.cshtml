@@ -1,0 +1,49 @@
+﻿@model ZeldaWebsite.Models.User
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+
+    // if (StaticFields.IsUser)
+    // Layout = "~/Views/Shared/_Layout2.cshtml";
+    // else
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Home.css" />
+</head>
+
+<section class="contact_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <div class="row">
+                <h2>
+                    <span>
+                        Details
+                    </span>
+                </h2>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div style="font-size:20px">
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

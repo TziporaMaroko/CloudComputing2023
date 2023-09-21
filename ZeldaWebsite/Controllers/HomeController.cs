@@ -63,5 +63,45 @@ namespace ZeldaWebsite.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult LogIn()
+        {
+            return View();
+        }
+
+        //async Task<IActionResult>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ViewResult LogIn([Bind("UserName,Password")] User users)
+        {
+            bool flag = false;
+            if (ModelState.IsValid)
+            {
+                foreach (var user in _context.Users)
+                {
+                    if (user.UserName == users.UserName && user.Password == users.Password)
+                    {
+                        ViewBag.text = "true";
+                        flag = true;
+                        StaticFields.UserName = user.UserName;
+                        StaticFields.IsUser = true;
+                        return View("~/Views/Manager/Index.cshtml",_context.Flavour);
+                    }
+                }
+                if (flag == false)
+                {
+                    ViewBag.text = "false";
+                }
+            }
+            return View();
+        }
+
+        public IActionResult LogOut()
+        {
+            StaticFields.IsUser = false;
+            return View("~/Views/Home/Index.cshtml");
+        }
     }
+
+    
 }
