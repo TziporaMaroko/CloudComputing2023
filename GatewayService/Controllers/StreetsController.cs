@@ -31,7 +31,7 @@ namespace GateWay.Controllers
             {
                 foreach (var address in myDeserializedClass.result.records)
                 {
-                    if (string.Equals(address.city_name, city, StringComparison.OrdinalIgnoreCase) && string.Equals(address.street_name, street, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(address.city_name,city+" ", StringComparison.OrdinalIgnoreCase) && string.Equals(address.street_name,street+" ", StringComparison.OrdinalIgnoreCase))
                         return true; // Address exists
                 }
             }

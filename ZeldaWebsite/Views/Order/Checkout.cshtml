@@ -52,7 +52,9 @@
 							<div class="form-group">
 								<input asp-for="HouseNumber" type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
 							</div>
-
+							<div class="validation-summary-errors mb-4">
+								@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+							</div>
 							<div class="form-group row mb-5">
 								<div class="col-md-6">
 									<label asp-for="Email" class="text-black">Email Address <span class="text-danger">*</span></label>
