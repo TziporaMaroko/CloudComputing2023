@@ -33,6 +33,9 @@
             <div class="form-group">
                 <label asp-for="ImageURL" class="control-label"></label>
                 <input asp-for="ImageURL" class="form-control" />
+                <div class="validation-summary-errors mb-4">
+								@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+							</div>
                 <span asp-validation-for="ImageURL" class="text-danger"></span>
             </div>
             <div class="form-group">

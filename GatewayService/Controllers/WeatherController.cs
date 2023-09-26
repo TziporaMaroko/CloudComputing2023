@@ -31,7 +31,5 @@ namespace GateWay.Controllers
             weatherToReturn.Humidity = myDeserializedClass.main.humidity;
             return weatherToReturn;
         }
-
-
     }
 }

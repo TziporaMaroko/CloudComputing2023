@@ -31,20 +31,27 @@ namespace GatewayAPI.Controllers
 
             // Set the credentials for the WebClient
             webClient.Credentials = credentials;
-
-        // Download the JSON response using the WebClient with authorization
-            var response = webClient.DownloadString($"https://api.imagga.com/v2/tags?image_url={imageUrl}");
-                RootImages myDeserializedClass = JsonConvert.DeserializeObject<RootImages>(response);
-
-                // Check if the image is ice cream
-                if (myDeserializedClass?.result.tags != null)
+            try
             {
-                foreach (var tagElement in myDeserializedClass.result.tags)
+                // Download the JSON response using the WebClient with authorization
+                var response = webClient.DownloadString($"https://api.imagga.com/v2/tags?image_url={imageUrl}");
+                RootImages myDeserializedClass = JsonConvert.DeserializeObject<RootImages>(response);
+                if (myDeserializedClass?.result.tags != null) // Check if the image is ice cream
                 {
-                    if (string.Equals(tagElement.tag.en, "ice cream", StringComparison.OrdinalIgnoreCase))
-                        return true; // it's an ice cream!!!
+                    foreach (var tagElement in myDeserializedClass.result.tags)
+                    {
+                        if (string.Equals(tagElement.tag.en, "ice cream", StringComparison.OrdinalIgnoreCase))
+                            return true; // it's an ice cream!!!
+                    }
                 }
+                return false; // not ice cream
             }
-            return false; // not ice cream
+            catch (Exception ex)
+            {
+                return false;
             }
-    } } 
+
+        }
+
+    }
+}

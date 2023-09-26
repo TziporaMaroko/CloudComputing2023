@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using ZeldaWebsite.Data;
 using ZeldaWebsite.Models;
 using System.Net.Http;
+using GatewayAPI.Models;
+using Newtonsoft.Json;
+using Weather = ZeldaWebsite.Models.Weather;
 
 namespace ZeldaWebsite.Controllers
 {
@@ -21,6 +24,10 @@ namespace ZeldaWebsite.Controllers
         public async Task<IActionResult> CreateOrder([Bind("Id,FirstName,LastName,PhoneNumber,Email,Street,City,HouseNumber,Total,Products,Date,FeelsLike,Humidity,IsItHoliday,Day")] Order order)
         {
             order.Date = DateTime.Now;
+            order.Day= (Models.DayOfWeek)DateTime.Now.DayOfWeek;
+            Weather wez = FindWeather(order.City);
+            order.FeelsLike= wez.FeelsLike;
+            order.Humidity = wez.Humidity;
 			bool isAddressValid = await CheckAddress(order.City, order.Street);
 
 			if (isAddressValid)
@@ -74,7 +81,77 @@ namespace ZeldaWebsite.Controllers
         }
 
 
-        public IActionResult ThankYou()
+		public Weather FindWeather(string city)
+		{
+			// Construct the URL to the API Gateway's GetWeather endpoint
+			string apiUrl = $"http://localhost:5186/Weather?city={city}"; 
+
+			try
+			{
+				// Create an instance of HttpClient
+				using (var httpClient = new HttpClient())
+				{
+					// Send a GET request to the API Gateway's GetWeather endpoint
+					HttpResponseMessage response = httpClient.GetAsync(apiUrl).Result;
+
+					// Check if the request was successful
+					if (response.IsSuccessStatusCode)
+					{
+						// Deserialize the JSON response into a WeatherToReturn object
+						var jsonContent = response.Content.ReadAsStringAsync().Result;
+						var weather = JsonConvert.DeserializeObject<Weather>(jsonContent);
+						return weather;
+					}
+					else
+					{
+						// Handle errors here
+						return new Weather(); ; 
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				// Handle exceptions here
+				return new Weather(); 
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<bool> IsItHoliday(string city, string street)
+		{
+			// Construct the URL of the other project's endpoint
+			string apiUrl = $"http://localhost:5186/Streets?city={city}&street={street}";
+
+			try
+			{
+				// Create an instance of HttpClient
+				using (var httpClient = new HttpClient())
+				{
+					// Send a GET request to the other project's endpoint
+					HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+					// Check if the request was successful
+					if (response.IsSuccessStatusCode)
+					{
+						// Parse the response content as a boolean value
+						bool isValidAddress = bool.Parse(await response.Content.ReadAsStringAsync());
+
+						return isValidAddress;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
+
+		public IActionResult ThankYou()
         {
             return View();
         }

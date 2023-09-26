@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using PayPal.Api;
 using ZeldaWebsite.Data;
 using ZeldaWebsite.Models;
 
@@ -87,13 +88,57 @@ namespace ZeldaWebsite.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageURL")] Flavour flavour)
 		{
-			if (ModelState.IsValid)
+			
+			
+			bool isImageValid = await CheckImage(flavour.ImageURL);
+
+			if (isImageValid && ModelState.IsValid)
 			{
 				_context.Add(flavour);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
-			return View(flavour);
+			else
+			{
+				// If the address is not valid, add a model error
+				ModelState.AddModelError(string.Empty, "Invalid image. The image does not contain ice cream.");
+				return View(flavour);
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<bool> CheckImage(string imageURL)
+		{
+			// Construct the URL of the other project's endpoint
+			string apiUrl = $"http://localhost:5186/api/Images?imageUrl={imageURL}";
+
+			try
+			{
+				// Create an instance of HttpClient
+				using (var httpClient = new HttpClient())
+				{
+					// Send a GET request to the other project's endpoint
+					HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+					// Check if the request was successful
+					if (response.IsSuccessStatusCode)
+					{
+						// Parse the response content as a boolean value
+						bool isValidAddress = bool.Parse(await response.Content.ReadAsStringAsync());
+
+						return isValidAddress;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
 		}
 
 		// GET: Flavours1/Edit/5
