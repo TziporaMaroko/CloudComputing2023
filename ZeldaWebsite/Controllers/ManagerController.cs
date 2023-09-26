@@ -26,35 +26,38 @@ namespace ZeldaWebsite.Controllers
 			return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
 						Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
 		}
-		public async Task<IActionResult> Dashboard()
-		{
-			var monthlyOrders = _context.Orders
-			.GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month })
-			.OrderBy(g => g.Key.Year)
-			.ThenBy(g => g.Key.Month)
-			.Select(g => new
-			{
-				   Period = $"{g.Key.Month:D2}/{g.Key.Year}",
-				   OrdersCount = g.Count(),
-				   OrdersTotal= g.Sum(o => o.Total).ToString("F2")
-			})
-			.ToList();
+        public async Task<IActionResult> Dashboard()
+        {
+            var dailyOrders = _context.Orders
+                .GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month, Day = o.Date.Day })
+                .OrderBy(g => g.Key.Year)
+                .ThenBy(g => g.Key.Month)
+                .ThenBy(g => g.Key.Day)
+                .Select(g => new
+                {
+                    Period = $"{g.Key.Day:D2}/{g.Key.Month:D2}/{g.Key.Year}",
+                    OrdersCount = g.Count(),
+                    OrdersTotal = g.Sum(o => o.Total)
+                })
+                .ToList();
 
-			ViewBag.MonthlyOrdersJson = JsonConvert.SerializeObject(monthlyOrders.Select(g => new
-			{
-				period = g.Period,
-				ordersCount = g.OrdersCount,
-				ordersTotal = g.OrdersTotal
-			}));
+            ViewBag.DailyOrdersJson = JsonConvert.SerializeObject(dailyOrders.Select(g => new
+            {
+                period = g.Period,
+                ordersCount = g.OrdersCount,
+                ordersTotal = g.OrdersTotal.ToString("F2")
+            }));
 
-			return _context.Orders != null ?
-				View(await _context.Orders.ToListAsync()) :
-				Problem("Entity set 'ZeldaWebsiteContext.Orders' is null.");
-		}
+            return _context.Orders != null ?
+                View(await _context.Orders.ToListAsync()) :
+                Problem("Entity set 'ZeldaWebsiteContext.Orders' is null.");
+        }
 
 
-		// GET: Flavours1/Details/5
-		public async Task<IActionResult> Details(int? id)
+
+
+        // GET: Flavours1/Details/5
+        public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null || _context.Flavour == null)
 			{
@@ -185,5 +188,36 @@ namespace ZeldaWebsite.Controllers
 		{
 			return (_context.Flavour?.Any(e => e.Id == id)).GetValueOrDefault();
 		}
-	}
+
+        [HttpGet]
+        [HttpGet]
+        public IActionResult UpdateGraph(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                // Query the database to get the relevant data for the graph
+                var graphData = _context.Orders
+                    .Where(o => o.Date >= startDate && o.Date <= endDate)
+                    .GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month, Day = o.Date.Day })
+                    .OrderBy(g => g.Key.Year)
+                    .ThenBy(g => g.Key.Month)
+                    .ThenBy(g => g.Key.Day)
+                    .Select(g => new
+                    {
+                        Period = $"{g.Key.Day:D2}/{g.Key.Month:D2}/{g.Key.Year}",
+                        OrdersCount = g.Count(),
+                        OrdersTotal = g.Sum(o => o.Total)
+                    })
+                    .ToList();
+
+                return Json(graphData);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors and return an error response if needed
+                return BadRequest(ex.Message);
+            }
+        }
+
+    }
 }
