@@ -29,7 +29,7 @@ namespace ZeldaWebsite.Controllers
             order.FeelsLike= wez.FeelsLike;
             order.Humidity = wez.Humidity;
 			bool isAddressValid = await CheckAddress(order.City, order.Street);
-
+			order.IsItHoliday= await IsItHoliday(order.Date.Year.ToString(), order.Date.Month.ToString(), order.Date.Day.ToString());
 			if (isAddressValid)
 			{
 				_db.Add(order);
@@ -40,16 +40,8 @@ namespace ZeldaWebsite.Controllers
                 {
                     item.OrderId = order.Id;
 					item.DateCreated= DateTime.Now; 
-					
 				}
                 await _db.SaveChangesAsync();
-    //            foreach (var item in order.Products)//deletes duplicates in the database where order id == null
-				//{
-    //                var toDelete = await _db.ShoppingCartItems.SingleOrDefaultAsync(
-    //                c => c.CartId == item.CartId && c.FlavourId == item.FlavourId && item.OrderId == null);
-    //                _db.ShoppingCartItems.Remove(toDelete);
-    //            }
-    //            await _db.SaveChangesAsync();
                 return RedirectToAction("ThankYou");
 			}
 			else
@@ -95,8 +87,9 @@ namespace ZeldaWebsite.Controllers
             }
         }
 
-
-		public Weather FindWeather(string city)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public Weather FindWeather(string city)
 		{
 			// Construct the URL to the API Gateway's GetWeather endpoint
 			string apiUrl = $"http://localhost:5186/Weather?city={city}"; 
@@ -133,10 +126,10 @@ namespace ZeldaWebsite.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<bool> IsItHoliday(string city, string street)
+		public async Task<bool> IsItHoliday(string y, string m, string d)
 		{
 			// Construct the URL of the other project's endpoint
-			string apiUrl = $"http://localhost:5186/Streets?city={city}&street={street}";
+			string apiUrl = $"http://localhost:5186/HebCal?y={y}&m={m}&d={d}";
 
 			try
 			{
@@ -150,9 +143,9 @@ namespace ZeldaWebsite.Controllers
 					if (response.IsSuccessStatusCode)
 					{
 						// Parse the response content as a boolean value
-						bool isValidAddress = bool.Parse(await response.Content.ReadAsStringAsync());
+						bool isHoliday = bool.Parse(await response.Content.ReadAsStringAsync());
 
-						return isValidAddress;
+						return isHoliday;
 					}
 					else
 					{

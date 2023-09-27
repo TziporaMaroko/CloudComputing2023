@@ -111,7 +111,7 @@ namespace ZeldaWebsite.Controllers
 		public async Task<bool> CheckImage(string imageURL)
 		{
 			// Construct the URL of the other project's endpoint
-			string apiUrl = $"http://localhost:5186/api/Images?imageUrl={imageURL}";
+			string apiUrl = $"http://localhost:5186/Images?imageUrl={imageURL}";
 
 			try
 			{

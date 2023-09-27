@@ -8,7 +8,7 @@ using System.Net;
 
 namespace GatewayAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ImagesController : ControllerBase
     {
