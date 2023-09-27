@@ -3,19 +3,10 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/ManagerLayout.cshtml";
 }
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-<!-- Include Bootstrap Datepicker CSS and JavaScript -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.js"></script>
 
 <!-- ============================================================== -->
 <!-- Yearly Sales -->
@@ -26,16 +17,9 @@
         <div class="card oh">
             <div class="card-body">
                 <h4 class="card-title">Graph Overview</h4>
-                <form autocomplete="off">
-                    <div class="flex-row d-flex justify-content-center">
-                        <div class="col-xl-5 col-lg-6 col-11 px-1">
-                            <div class="input-group input-daterange">
-                                <label class="">Select Date Range :</label>
-                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" readonly />
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <input type="text" id="datetimerange-input1" size="24" style="text-align:center">
+
+                
                 <!-- Add a button to trigger the update of the graph -->
                 <button id="updateGraphButton" class="genric-btn primary radius">Update Graph</button>
 
@@ -62,7 +46,7 @@
             </div>
         </div>
     </div>
-   
+
     <!-- ============================================================== -->
     <!-- News -->
     <!-- ============================================================== -->
@@ -148,85 +132,10 @@
         z-index: 1;
     }
 
-
-
-    input {
-        padding: 10px 15px !important;
-        border: 1px solid #CFD8DC !important;
-        border-radius: 4px !important;
-        box-sizing: border-box;
-        background-color: #fff !important;
-        color: #000 !important;
-        font-size: 16px !important;
-        letter-spacing: 1px;
-        position: relative;
-        width: 100%;
-    }
-
-        input:focus {
-            -moz-box-shadow: none !important;
-            -webkit-box-shadow: none !important;
-            box-shadow: none !important;
-            border: 1px solid #FFA000 !important;
-            outline-width: 0;
-        }
-
-    .daterangepicker {
-        background-color: #fff;
-        border-radius: 0 !important;
-        align-content: center !important;
-        padding: 0 !important;
-    }
-
-    /*Weekday Heading*/
-    thead tr:nth-child(2) {
-        color: #BDBDBD !important;
-    }
-
-    tbody tr td {
-        padding: 5px 7px !important;
-    }
-
-    .month {
-        font-size: 16px !important;
-        padding-bottom: 10px !important;
-        padding-top: 10px !important;
-    }
-
-    .start-date, .end-date {
-        border-radius: 0px !important;
-    }
-
-    .available:hover {
-        border-radius: 0px !important;
-    }
-
-    .off {
-        color: #EEEEEE !important;
-    }
-
-        .off:hover {
-            background-color: #EEEEEE !important;
-            color: #fff !important;
-        }
-
-    .drp-buttons {
-        display: none !important;
-    }
-
-
 </style>
 <script>
     $(function () {
         "use strict";
-        $('input[name="daterange"]').daterangepicker({
-            "startDate": "01/01/2020",
-            "endDate": "17/01/2020",
-            opens: 'center',
-            locale: {
-                format: 'DD/MM/YYYY'
-            }
-        });
         // Retrieve the monthly order data from the hidden div
         var dailyOrdersData = @Html.Raw(ViewBag.DailyOrdersJson);
 
@@ -252,60 +161,60 @@
 
     };
 
-    $(function () {
-        "use strict";
-        $('input[name="daterange"]').daterangepicker({
-            "startDate": "01/01/2020",
-            "endDate": "17/01/2020",
-            opens: 'center',
-            locale: {
-                format: 'DD/MM/YYYY'
-            }
-        });
-// Define a function to update the graph based on the selected date range
-        function updateGraph() {
-            // Retrieve the selected date range
-               
-            var startDate = $('#dateRangePicker').datepicker('getStartDate');
-            var endDate = $('#dateRangePicker').datepicker('getEndDate');
 
-            // Make an AJAX request to fetch data based on the selected date range
-            $.ajax({
-                url: '/Manager/UpdateGraph', // Replace with the actual endpoint to fetch data
-                type: 'GET',
-                data: {
-                    startDate: startDate.toISOString(),
-                    endDate: endDate.toISOString()
+</script>
+<script>
+    window.addEventListener("load", function (event) {
+        let drp = new DateRangePicker('datetimerange-input1',
+            {
+                //startDate: '2000-01-01',
+                //endDate: '2000-01-03',
+                //minDate: '2021-07-15 15:00',
+                //maxDate: '2021-08-16 15:00',
+                //maxSpan: { "days": 9 },
+                minYear: 2023,
+                maxYear: 2024,
+                alwaysShowCalendars: true,
+                ranges: {
+                    'Today': [moment().startOf('day'), moment().endOf('day')],
+                    'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+                    'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
+                    'This Month': [moment().startOf('month').startOf('day'), moment().endOf('month').endOf('day')],
                 },
-                success: function (data) {
-                    // Update the graph with the new data
-                    Morris.Line({
-                        element: 'line-chart',
-                        data: data,
-                        xkey: 'period',
-                        ykeys: ['ordersCount', 'ordersTotal'],
-                        labels: ['Orders Count', 'Orders Total'],
-                        fillOpacity: 0.6,
-                        hideHover: 'auto',
-                        behaveLikeLine: true,
-                        resize: true,
-                        pointFillColors: ['#ffffff'],
-                        pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
-                        lineColors: ['gray', 'red'],
-                        gridLineColor: ['#009efb', '#7460ee', '#009efb'],
-                        lineWidth: 1
-                    });
-                },
-                error: function () {
-                    // Handle errors here
+                locale: {
+                    format: "YYYY-MM-DD",
                 }
-            });
-        }
+            },
+            function (start, end) {
+                //alert(start.format() + " - " + end.format());
+                $.ajax({
+                    url: '/Manager/GetDataForDateRange',
+                    type: 'GET',
+                    data: {
+                        startDate: start,
+                        endDate: end
+                    },
+                    success: function (data) {
+                        // Update the graph with the new data
+                        var config = {
+                             data: data,
+                             // Other Morris.js configuration options
+                        };
 
-        // Attach the updateGraph function to the button click event
-        $('#updateGraphButton').on('click', function () {
-            updateGraph();
+                        config.element = 'line-chart';
+                        Morris.Line(config);
+                    },
+                    error: function () {
+                        // Handle errors here
+                    }
+                });
+            })
+        //drp.setStartDate('2014/03/01');
+        //drp.setEndDate('2014/03/03');
+        window.addEventListener('apply.daterangepicker', function (ev) {
+            //    console.log(ev.detail.startDate.format('YYYY-MM-DD'));
+            //    console.log(ev.detail.endDate.format('YYYY-MM-DD'));
+            updateGraph(ev.detail.startDate, ev.detail.endDate);
         });
     });
 </script>
-

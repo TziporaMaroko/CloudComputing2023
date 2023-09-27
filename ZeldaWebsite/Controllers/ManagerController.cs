@@ -234,9 +234,9 @@ namespace ZeldaWebsite.Controllers
 			return (_context.Flavour?.Any(e => e.Id == id)).GetValueOrDefault();
 		}
 
+
         [HttpGet]
-        [HttpGet]
-        public IActionResult UpdateGraph(DateTime startDate, DateTime endDate)
+        public IActionResult GetDataForDateRange(DateTime startDate, DateTime endDate)
         {
             try
             {
@@ -249,7 +249,7 @@ namespace ZeldaWebsite.Controllers
                     .ThenBy(g => g.Key.Day)
                     .Select(g => new
                     {
-                        Period = $"{g.Key.Day:D2}/{g.Key.Month:D2}/{g.Key.Year}",
+                        Period = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day).ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds,
                         OrdersCount = g.Count(),
                         OrdersTotal = g.Sum(o => o.Total)
                     })
@@ -263,6 +263,5 @@ namespace ZeldaWebsite.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

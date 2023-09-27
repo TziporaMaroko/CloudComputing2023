@@ -19,7 +19,7 @@ namespace ZeldaWebsite.Models
 
         public int FlavourId { get; set; }
 
-
+        public int? OrderId { get; set; }
 
     }
 }

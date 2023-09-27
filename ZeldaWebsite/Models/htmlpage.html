@@ -1,0 +1,617 @@
+﻿<!DOCTYPE html>
+<html class=" sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>ZELDA MANAGER | Dashboard</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/slicknav.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/progressbar_barfiller.css">
+    <link rel="stylesheet" href="/assets/css/gijgo.css">
+    <link rel="stylesheet" href="/assets/css/animate.min.css">
+    <link rel="stylesheet" href="/assets/css/animated-headline.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- chartist CSS -->
+    <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+    <!--c3 plugins CSS -->
+    <link href="/assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
+    <style type="text/css">
+        .jqstooltip {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            visibility: hidden;
+            background: rgb(0, 0, 0) transparent;
+            background-color: rgba(0,0,0,0.6);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+            color: white;
+            font: 10px arial, san serif;
+            text-align: left;
+            white-space: nowrap;
+            padding: 5px;
+            border: 1px solid white;
+            z-index: 10000;
+        }
+
+        .jqsfield {
+            color: white;
+            font: 10px arial, san serif;
+            text-align: left;
+        }
+    </style>
+    <style id="inert-style">
+        [inert] {
+            pointer-events: none;
+            cursor: default;
+        }
+
+            [inert], [inert] * {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+    </style>
+</head>
+<body style="overflow: visible;">
+    <!-- ? Preloader Start -->
+    <div id="preloader-active" style="display: none;">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="/assets/img/logo/loder.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader Start-->
+    <header>
+        <!-- Header Start -->
+        <div class="header-area ">
+            <div class="main-header header-sticky">
+                <div class="container-fluid">
+                    <div class="menu-wrapper d-flex align-items-center justify-content-between">
+                        <div class="header-left d-flex align-items-center">
+                            <!-- Logo -->
+                            <div class="logo">
+                                <a href="/Manager"><img src="/assets/img/logo/logo.png" alt=""></a>
+                            </div>
+                            <!-- Main-menu -->
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="/Manager">Flavours</a></li>
+                                        <li><a href="/Manager/Dashboard">Dashboard</a></li>
+                                        <li><a href="/User">Admins</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="header-right1 d-flex align-items-center">
+                            <!-- Social -->
+                            <div class="header-social d-none d-md-block">
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                            </div>
+                            <!-- Search Box -->
+                            <div class="search d-none d-md-block">
+                                <ul class="d-flex align-items-center">
+                                    <li class="mr-15">
+                                        <div class="nav-search search-switch">
+                                            <i class="ti-search"></i>
+                                        </div>
+                                    </li>
+                                    <li><a class="card-stor" href="/">Log Out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none">
+                                <div class="slicknav_menu">
+                                    <a href="#" aria-haspopup="true" role="button" tabindex="0" class="slicknav_btn slicknav_collapsed" style="outline: none;"><span class="slicknav_menutxt">MENU</span><span class="slicknav_icon"><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span></span></a><ul class="slicknav_nav slicknav_hidden" aria-hidden="true" role="menu" style="display: none;">
+                                        <li><a href="/Manager" role="menuitem" tabindex="-1">Flavours</a></li>
+                                        <li><a href="/Manager/Dashboard" role="menuitem" tabindex="-1">Dashboard</a></li>
+                                        <li><a href="/User" role="menuitem" tabindex="-1">Admins</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+    </header>
+    <!-- header end -->
+    <div>
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.css">
+
+        <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.js"></script>
+        <!-- ============================================================== -->
+        <!-- Yearly Sales -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-lg-8 mb-10 ml-10">
+
+                <div class="card oh">
+                    <div class="card-body">
+                        <h4 class="card-title">Graph Overview</h4>
+                        <input type="text" id="datetimerange-input1" size="24" style="text-align:center">
+                        <!-- Add a button to trigger the update of the graph -->
+
+                        <div id="line-chart" style="height: 350px;"></div>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="row text-center m-b-20">
+                            <div class="col-lg-4 col-md-4 m-t-20">
+                                <h2 class="m-b-0 font-light">17</h2><span class="text-muted">Total orders</span>
+                            </div>
+                            <div class="col-lg-4 col-md-4 m-t-20">
+                                <h2 class="m-b-0 font-light">54.97$</h2>
+                                <span class="text-muted">Average order's total</span>
+                            </div>
+                            <div class="col-lg-4 col-md-4 m-t-20">
+                                <h2 class="m-b-0 font-light">17</h2><span class="text-muted">Total orders</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- News -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <!-- column -->
+                <div class="col-12 ml-10 mb-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div>
+                                    <h4 class="card-title">Sales Overview</h4>
+                                    <h5 class="card-subtitle">Check the monthly sales</h5>
+                                </div>
+                                <div class="ml-auto">
+                                    <select class="custom-select b-0" style="display: none;">
+                                        <option>January</option>
+                                        <option value="1">February</option>
+                                        <option value="2" selected="">March</option>
+                                        <option value="3">April</option>
+                                    </select><div class="nice-select custom-select b-0" tabindex="0"><span class="current">March</span><ul class="list"><li data-value="January" class="option">January</li><li data-value="1" class="option">February</li><li data-value="2" class="option selected">March</li><li data-value="3" class="option">April</li></ul></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">7</td>
+                                        <td class="txt-oflo">Tzipora</td>
+                                        <td class="txt-oflo">Maroko</td>
+                                        <td class="txt-oflo">20/9/2023</td>
+                                        <td><span class="text-success">0.00$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">8</td>
+                                        <td class="txt-oflo">Ester</td>
+                                        <td class="txt-oflo">Nadler</td>
+                                        <td class="txt-oflo">20/9/2023</td>
+                                        <td><span class="text-success">0.00$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">9</td>
+                                        <td class="txt-oflo">Ester</td>
+                                        <td class="txt-oflo">Nadler</td>
+                                        <td class="txt-oflo">20/9/2023</td>
+                                        <td><span class="text-success">0.00$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">10</td>
+                                        <td class="txt-oflo">Sara</td>
+                                        <td class="txt-oflo">Netanyahu</td>
+                                        <td class="txt-oflo">20/9/2023</td>
+                                        <td><span class="text-success">172.52$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">11</td>
+                                        <td class="txt-oflo">Rivka</td>
+                                        <td class="txt-oflo">Weiss</td>
+                                        <td class="txt-oflo">8/8/2023</td>
+                                        <td><span class="text-success">32.50$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">13</td>
+                                        <td class="txt-oflo">Nana</td>
+                                        <td class="txt-oflo">Banana</td>
+                                        <td class="txt-oflo">8/8/2023</td>
+                                        <td><span class="text-success">49.35$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">14</td>
+                                        <td class="txt-oflo">Shilat</td>
+                                        <td class="txt-oflo">Shron</td>
+                                        <td class="txt-oflo">7/7/2023</td>
+                                        <td><span class="text-success">16.45$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">15</td>
+                                        <td class="txt-oflo">רבקה</td>
+                                        <td class="txt-oflo">מארוקו</td>
+                                        <td class="txt-oflo">21/9/2023</td>
+                                        <td><span class="text-success">16.45$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">16</td>
+                                        <td class="txt-oflo">Dov</td>
+                                        <td class="txt-oflo">Rein</td>
+                                        <td class="txt-oflo">24/9/2023</td>
+                                        <td><span class="text-success">113.75$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">17</td>
+                                        <td class="txt-oflo">Tzipora</td>
+                                        <td class="txt-oflo">Maroko</td>
+                                        <td class="txt-oflo">26/9/2023</td>
+                                        <td><span class="text-success">16.45$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">18</td>
+                                        <td class="txt-oflo">Tzipora</td>
+                                        <td class="txt-oflo">Maroko</td>
+                                        <td class="txt-oflo">26/9/2023</td>
+                                        <td><span class="text-success">16.25$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">19</td>
+                                        <td class="txt-oflo">משה</td>
+                                        <td class="txt-oflo">זוכמיר</td>
+                                        <td class="txt-oflo">26/9/2023</td>
+                                        <td><span class="text-success">16.25$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">20</td>
+                                        <td class="txt-oflo">שילת</td>
+                                        <td class="txt-oflo">שרון</td>
+                                        <td class="txt-oflo">26/9/2023</td>
+                                        <td><span class="text-success">49.15$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">21</td>
+                                        <td class="txt-oflo">Tzipora</td>
+                                        <td class="txt-oflo">Maroko</td>
+                                        <td class="txt-oflo">26/9/2023</td>
+                                        <td><span class="text-success">24.48$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">26</td>
+                                        <td class="txt-oflo">יעקב</td>
+                                        <td class="txt-oflo">לוי</td>
+                                        <td class="txt-oflo">27/9/2023</td>
+                                        <td><span class="text-success">49.35$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">27</td>
+                                        <td class="txt-oflo">שרה</td>
+                                        <td class="txt-oflo">נתניהו</td>
+                                        <td class="txt-oflo">27/9/2023</td>
+                                        <td><span class="text-success">164.50$</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">28</td>
+                                        <td class="txt-oflo">שרה</td>
+                                        <td class="txt-oflo">נתניהו</td>
+                                        <td class="txt-oflo">27/9/2023</td>
+                                        <td><span class="text-success">197.00$</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .morris-hover.morris-default-style {
+                border-radius: 10px;
+                padding: 6px;
+                color: #000;
+                background: rgba(255, 255, 255, 0.8);
+                border: solid 2px rgba(230, 230, 230, 0.8);
+                font-family: sans-serif;
+                font-size: 12px;
+                text-align: center;
+            }
+
+            .morris-hover.morris-default-style {
+                border-radius: 4px;
+                padding: 10px 12px;
+                color: #000;
+                background: #63676b;
+                border: none;
+                color: #fff !important;
+                box-shadow: none;
+                font-size: 14px;
+            }
+
+            .morris-hover {
+                position: absolute;
+                z-index: 1000;
+            }
+
+            .morris-hover {
+                position: absolute;
+                z-index: 1;
+            }
+        </style>
+        <script>
+    window.addEventListener("load", function (event) {
+        let drp = new DateRangePicker('datetimerange-input1', {
+            //startDate: '2000-01-01',
+            //endDate: '2000-01-03',
+            //minDate: '2021-07-15 15:00',
+            //maxDate: '2021-08-16 15:00',
+            //maxSpan: { "days": 9 },
+            minYear: 2023,
+            maxYear: 2024,
+            alwaysShowCalendars: true,
+            locale: {
+                format: "YYYY-MM-DD HH:mm:ss",
+            }
+        },
+            function (start, end) {
+                //alert(start.format() + " - " + end.format());
+                UpdateGraph(start, end);
+            })
+        //drp.setStartDate('2014/03/01');
+        //drp.setEndDate('2014/03/03');
+        window.addEventListener('apply.daterangepicker', function (ev) {
+            //console.log(ev.detail.startDate.format('YYYY-MM-DD'));
+            //console.log(ev.detail.endDate.format('YYYY-MM-DD'));
+            UpdateGraph(ev.detail.startDate, ev.detail.endDate);
+        });
+        
+    });
+
+
+
+    $(function () {
+        "use strict";
+        // Retrieve the monthly order data from the hidden div
+        var dailyOrdersData = [{"period":"07/07/2023","ordersCount":1,"ordersTotal":"16.45"},{"period":"08/08/2023","ordersCount":2,"ordersTotal":"81.85"},{"period":"20/09/2023","ordersCount":4,"ordersTotal":"172.52"},{"period":"21/09/2023","ordersCount":1,"ordersTotal":"16.45"},{"period":"24/09/2023","ordersCount":1,"ordersTotal":"113.75"},{"period":"26/09/2023","ordersCount":5,"ordersTotal":"122.57"},{"period":"27/09/2023","ordersCount":3,"ordersTotal":"410.85"}];
+
+        var config = {
+            data: dailyOrdersData,
+            xkey: 'period',
+            ykeys: ['ordersCount', 'ordersTotal'],
+            labels: ['Orders Count', 'Orders Total'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            behaveLikeLine: true,
+            resize: true,
+            pointFillColors: ['#ffffff'],
+            pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
+            lineColors: ['gray', 'red'],
+            gridLineColor: ['#009efb', '#7460ee', '#009efb'],
+            lineWidth: 1
+        };
+
+
+        config.element = 'line-chart';
+        Morris.Line(config);
+
+    };
+
+    $(function () {
+        "use strict";
+
+        // Define a function to update the graph based on the selected date range
+        function updateGraph(startDate, endDate) {
+            // Make an AJAX request to fetch data based on the selected date range
+            $.ajax({
+                url: '/Manager/GetDataForDateRange',
+                type: 'GET',
+                data: {
+                    startDate: startDate,
+                    endDate: endDate
+                },
+                success: function (data) {
+                    // Update the graph with the new data
+                    updateGraphWithData(data);
+                },
+                error: function () {
+                    // Handle errors here
+                }
+            });
+        }
+
+        function updateGraphWithData(data) {
+            var config = {
+                data: data,
+                // Other Morris.js configuration options
+            };
+
+            config.element = 'line-chart';
+            Morris.Line(config);
+        }
+
+        //// Attach the updateGraph function to the button click event
+        //$('#updateGraphButton').on('click', function () {
+        //    updateGraph();
+        //});
+    });
+        </script>
+
+
+    </div>
+    <footer>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Social Links -->
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-tittle">
+                                <h4>Social</h4>
+                                <div class="footer-social">
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-tittle">
+                                <h4>Quick links</h4>
+                                <ul>
+                                    <li><a href="/Home/Flavours">Our Flavours</a></li>
+                                    <li><a href="#">Shippment Policy</a></li>
+                                    <li><a href="/Home/About">About Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Get in Touch -->
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-tittle">
+                                <h4>Get in touch</h4>
+                                <ul>
+                                    <li><a href="#">054 845 5118</a></li>
+                                    <li><a href="#">tziporamaroko@gmail.com</a></li>
+                                    <li><a href="#">Campus Lustig, Ramat Gan</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+    </footer>
+    <!--? Search model Begin -->
+    <div class="search-model-box">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-btn">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Searching key.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search model end -->
+    <!-- Scroll Up -->
+    <div id="back-top">
+        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+    </div>
+
+    <!-- JS here -->
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="/assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!-- Slick-slider , Owl-Carousel ,slick-nav -->
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
+    <script src="/assets/js/jquery.slicknav.min.js"></script>
+
+    <!-- One Page, Animated-HeadLin, Date Picker -->
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/animated.headline.js"></script>
+    <script src="/assets/js/jquery.magnific-popup.js"></script>
+    <script src="/assets/js/gijgo.min.js"></script>
+
+    <!-- Nice-select, sticky,Progress -->
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/jquery.sticky.js"></script>
+    <script src="/assets/js/jquery.barfiller.js"></script>
+
+    <!-- counter , waypoint,Hover Direction -->
+    <script src="/assets/js/jquery.counterup.min.js"></script>
+    <script src="/assets/js/waypoints.min.js"></script>
+    <script src="/assets/js/jquery.countdown.min.js"></script>
+    <script src="/assets/js/hover-direction-snake.min.js"></script>
+
+    <!-- contact js -->
+    <script src="/assets/js/contact.js"></script>
+    <script src="/assets/js/jquery.form.js"></script>
+    <script src="/assets/js/jquery.validate.min.js"></script>
+    <script src="/assets/js/mail-script.js"></script>
+    <script src="/assets/js/jquery.ajaxchimp.min.js"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <script src="/assets/js/plus_minus_button.js"></script>
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="../assets/node_modules/popper/popper.min.js"></script>
+    <script src="../assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="dist/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!--morris JavaScript -->
+    <script src="/assets/node_modules/raphael/raphael-min.js"></script>
+    <script src="/assets/node_modules/morrisjs/morris.min.js"></script>
+    <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!--c3 JavaScript -->
+    <script src="/assets/node_modules/d3/d3.min.js"></script>
+    <script src="/assets/node_modules/c3-master/c3.min.js"></script>
+    <!-- Chart JS -->
+    <script src="/assets/dist/js/dashboard1.js"></script>
+
+    <!-- Visual Studio Browser Link -->
+    <script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="9cccda7fcdf048e2beeb49c206fdb143" data-requestmappingfromserver="false" data-connecturl="http://localhost:50121/d6baa4274dc74bb98852e116d0b789e9/browserLink"></script>
+    <!-- End Browser Link -->
+
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+
+    <live-preview-root></live-preview-root>
+</body>
+</html>

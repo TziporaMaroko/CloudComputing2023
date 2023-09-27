@@ -30,7 +30,7 @@ public class CartController : Controller
         foreach (var item in cartItems)
         {
             var flavour = GetFlavourById(item.FlavourId);
-            flavours.Add(flavour);
+            flavours.Add(flavour);    
         }
 
         var model = new CartView
@@ -83,7 +83,7 @@ public class CartController : Controller
                 Quantity = 1,
                 DateCreated = DateTime.Now,
                 Size= size,
-                Price= size*GetFlavourById(id).Price
+                Price= size*GetFlavourById(id).Price,
             };
 
             _db.ShoppingCartItems.Add(cartItem);

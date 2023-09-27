@@ -23,7 +23,7 @@ namespace ZeldaWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrder([Bind("Id,FirstName,LastName,PhoneNumber,Email,Street,City,HouseNumber,Total,Products,Date,FeelsLike,Humidity,IsItHoliday,Day")] Order order)
         {
-            order.Date = DateTime.Now;
+			order.Date = DateTime.Now;
             order.Day= (Models.DayOfWeek)DateTime.Now.DayOfWeek;
             Weather wez = FindWeather(order.City);
             order.FeelsLike= wez.FeelsLike;
@@ -33,9 +33,24 @@ namespace ZeldaWebsite.Controllers
 			if (isAddressValid)
 			{
 				_db.Add(order);
-				await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 				TempData["OrderCompleted"] = true;
-				return RedirectToAction("ThankYou");
+                //change all the cart items id to this order's id
+                foreach (var item in order.Products)
+                {
+                    item.OrderId = order.Id;
+					item.DateCreated= DateTime.Now; 
+					
+				}
+                await _db.SaveChangesAsync();
+    //            foreach (var item in order.Products)//deletes duplicates in the database where order id == null
+				//{
+    //                var toDelete = await _db.ShoppingCartItems.SingleOrDefaultAsync(
+    //                c => c.CartId == item.CartId && c.FlavourId == item.FlavourId && item.OrderId == null);
+    //                _db.ShoppingCartItems.Remove(toDelete);
+    //            }
+    //            await _db.SaveChangesAsync();
+                return RedirectToAction("ThankYou");
 			}
 			else
 			{
