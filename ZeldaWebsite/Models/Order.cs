@@ -21,7 +21,7 @@
         public string City { get; set; }
         public int HouseNumber { get; set; }
 		public double Total { get; set; }
-		public List<CartItem> Products { get; set; }
+		public List<CartItem>? Products { get; set; }
         public DateTime Date { get; set; }
         public double FeelsLike { get; set; }
         public double Humidity { get; set; }//לחות

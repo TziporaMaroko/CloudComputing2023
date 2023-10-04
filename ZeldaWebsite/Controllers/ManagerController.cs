@@ -75,8 +75,29 @@ namespace ZeldaWebsite.Controllers
 			return View(flavour);
 		}
 
-		// GET: Flavours1/Create
-		public IActionResult Create()
+        // GET: Orders/Details/5
+        public async Task<IActionResult> OrderDetails(int? id)
+        {
+            if (id == null || _context.Orders == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            var orderItems = await _context.ShoppingCartItems.Where(item => item.OrderId == id).ToListAsync();
+            //Bind order's products to the entity order
+            order.Products = orderItems;
+
+            return View(order);
+        }
+
+        // GET: Flavours1/Create
+        public IActionResult Create()
 		{
 			return View();
 		}

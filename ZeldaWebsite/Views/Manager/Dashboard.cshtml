@@ -84,13 +84,19 @@
                         <tbody>
                             @foreach (var order in Model)
                             {
+                                
                                 <tr>
+                                    
                                     <td class="text-center">@order.Id</td>
                                     <td class="txt-oflo">@order.FirstName</td>
                                     <td class="txt-oflo">@order.LastName</td>
                                     <td class="txt-oflo">@order.Date.Day/@order.Date.Month/@order.Date.Year</td>
                                     <td><span class="text-success">@order.Total.ToString("F2")$</span></td>
+                                    <td>
+                                        <a asp-action="OrderDetails" asp-route-id="@order.Id"><strong style="color:darkblue;">Details</strong></a> 
+                                    </td>
                                 </tr>
+                                
                             }
                         </tbody>
                     </table>
