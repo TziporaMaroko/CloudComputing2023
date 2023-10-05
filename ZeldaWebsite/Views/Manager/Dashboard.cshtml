@@ -3,26 +3,22 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/ManagerLayout.cshtml";
 }
-<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <!-- ============================================================== -->
 <!-- Yearly Sales -->
 <!-- ============================================================== -->
 <div class="row">
-    <div class="col-lg-8 mb-10 ml-10">
+    <div class="col-lg-7 mb-10 ml-10">
 
         <div class="card oh">
             <div class="card-body">
                 <h4 class="card-title">Graph Overview</h4>
-                <input type="text" id="datetimerange-input1" size="24" style="text-align:center">
-
-                
-                <!-- Add a button to trigger the update of the graph -->
-                <button id="updateGraphButton" class="genric-btn primary radius">Update Graph</button>
-
+                <input type="text" id="date-picker" class="flatpickr" size="24" style="text-align:center" placeholder="Select Date Range..">
                 <div id="line-chart" style="height: 350px;"></div>
             </div>
             <div class="card-body bg-light">
@@ -52,7 +48,7 @@
     <!-- ============================================================== -->
     <div class="row">
         <!-- column -->
-        <div class="col-12 ml-10 mb-10">
+        <div class="col-lg-12 ml-10 mb-10">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex">
@@ -171,56 +167,60 @@
 </script>
 <script>
     window.addEventListener("load", function (event) {
-        let drp = new DateRangePicker('datetimerange-input1',
-            {
-                //startDate: '2000-01-01',
-                //endDate: '2000-01-03',
-                //minDate: '2021-07-15 15:00',
-                //maxDate: '2021-08-16 15:00',
-                //maxSpan: { "days": 9 },
-                minYear: 2023,
-                maxYear: 2024,
-                alwaysShowCalendars: true,
-                ranges: {
-                    'Today': [moment().startOf('day'), moment().endOf('day')],
-                    'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-                    'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
-                    'This Month': [moment().startOf('month').startOf('day'), moment().endOf('month').endOf('day')],
-                },
-                locale: {
-                    format: "YYYY-MM-DD",
+        const datePicker = new flatpickr('#date-picker', {
+            mode: "range",
+            onValueUpdate(selectedDates, dateStr, instance) {
+                // Remove the existing graph if it exists
+                const existingGraph = document.getElementById('line-chart');
+                if (existingGraph) {
+                    existingGraph.remove();
                 }
-            },
-            function (start, end) {
-                //alert(start.format() + " - " + end.format());
+
+                // Create a new div element for the graph
+                const newGraphDiv = document.createElement('div');
+                newGraphDiv.id = 'line-chart';
+                newGraphDiv.style.height = '350px';
+
+                // Append the new graph container to the card body
+                const cardBody = document.querySelector('.card-body');
+                cardBody.appendChild(newGraphDiv);
+
+                // Convert JavaScript date objects to strings in a format that C# can parse
+                const startDate = selectedDates[0];
+                const endDate = selectedDates[1];
+                const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+                const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+
+                // Send the dates to the server using AJAX
                 $.ajax({
-                    url: '/Manager/GetDataForDateRange',
+                    url: `/Manager/GetDataForDateRange?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
                     type: 'GET',
-                    data: {
-                        startDate: start,
-                        endDate: end
-                    },
-                    success: function (data) {
+                    success(data) {
                         // Update the graph with the new data
                         var config = {
-                             data: data,
-                             // Other Morris.js configuration options
+                            data: data,
+                            xkey: 'period',
+                            ykeys: ['ordersCount', 'ordersTotal'],
+                            labels: ['Orders Count', 'Orders Total'],
+                            fillOpacity: 0.6,
+                            hideHover: 'auto',
+                            behaveLikeLine: true,
+                            resize: true,
+                            pointFillColors: ['#ffffff'],
+                            pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
+                            lineColors: ['gray', 'red'],
+                            gridLineColor: ['#009efb', '#7460ee', '#009efb'],
+                            lineWidth: 1
                         };
 
                         config.element = 'line-chart';
                         Morris.Line(config);
                     },
-                    error: function () {
+                    error() {
                         // Handle errors here
-                    }
+                    },
                 });
-            })
-        //drp.setStartDate('2014/03/01');
-        //drp.setEndDate('2014/03/03');
-        window.addEventListener('apply.daterangepicker', function (ev) {
-            //    console.log(ev.detail.startDate.format('YYYY-MM-DD'));
-            //    console.log(ev.detail.endDate.format('YYYY-MM-DD'));
-            updateGraph(ev.detail.startDate, ev.detail.endDate);
+            },
         });
     });
 </script>
