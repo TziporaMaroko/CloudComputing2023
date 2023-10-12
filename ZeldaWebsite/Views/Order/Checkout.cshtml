@@ -111,12 +111,16 @@
 											</tr>
 										</tbody>
 									</table>
+									@if (TempData["OrderCompleted"] as bool? != true)
+										{
 									<div class="border p-3 mb-5">
 										
 											<div id="paypal-button-container"></div>
 											<script data-sdk-integration-source="integrationbuilder_sc"
-												src="https://www.paypal.com/sdk/js?client-id=ATaR0ncvoOm38jdm-Jg3Nloh1NzbJ_YeBXy5B3-_2Jo0yQQQizWVQdIfuiOCxwCHulyCZzY2Ytk46J1U&components=buttons&enable-funding=venmo,paylater"></script>
-											<script>
+												src="https://www.paypal.com/sdk/js?client-id=ATaR0ncvoOm38jdm-Jg3Nloh1NzbJ_YeBXy5B3-_2Jo0yQQQizWVQdIfuiOCxwCHulyCZzY2Ytk46J1U&components=buttons"></script>
+										
+										@using Newtonsoft.Json
+												<script>
 												const FUNDING_SOURCES = [
 													// EDIT FUNDING SOURCES
 													paypal.FUNDING.PAYPAL,
@@ -132,131 +136,71 @@
 															color: (fundingSource == paypal.FUNDING.PAYLATER) ? 'gold' : '',
 														},
 
-														//createOrder: async (data, actions) => {
-														//	try {
-														//	const response = await fetch("http://localhost:5065/orders", {
-														//			method: "POST"
-														//		});
-
-														//		const details = await response.json();
-														//		return details.id;
-														//	} catch (error) {
-														//		console.error(error);
-														//		// Handle the error or display an appropriate error message to the user
-														//	}
-														//},
-
-													createOrder: async (data, actions) => {
-														try {
-															const orderId = document.getElementById("checkout-form").submit();
-															// Send a request to your server to capture the payment
-															const captureResponse = await fetch(`/Order/CaptureOrder?id=345678`, {
-																method: "POST",
-																headers: {
-																	"Content-Type": "application/json",
-																	"RequestVerificationToken": "@Html.AntiForgeryToken()" // Include an anti-forgery token if required
-																}
-															});
-
-															if (captureResponse.ok) {
-																// Handle the capture result here (e.g., show a success message)
-																console.log('Capture result:', captureResult);
-																alert('Payment captured successfully. Thank you for your order!');
-
-																// Redirect to the Thank You page
-																window.location.href = "/Order/ThankYou"; // Replace with the actual URL of your Thank You page
-															} else {
-																// Handle the case where capture failed (e.g., show an error message)
-																console.error('Payment capture failed');
-																alert('Payment capture failed. Please contact customer support.');
+													createOrder: function (data, actions) {
+														var items = @Html.Raw(JsonConvert.SerializeObject((@Model.Products as IEnumerable <ZeldaWebsite.Models.CartItem>)!.Select(item => new
+															{
+															sku = (item.ItemId+100000000).ToString(),
+															quantity = 1,
+															name = "flavour "+(item.FlavourId).ToString(),
+															unit_amount = new
+															{
+															currency_code = "USD",
+															value = item.Price.ToString("0.00")
 															}
-														} catch (error) {
-															console.error(error);
-															// Handle the error or display an appropriate error message to the user
-															alert('An error occurred while processing your payment. Please try again later.');
-														}
-													},
+															})));
+														return actions.order.create({
+															purchase_units: [
+																{
+																	amount: {
+																		currency_code: 'USD',
+																		value: '@Model.Total.ToString("F2")',
+																		breakdown:
+																		{
+																			item_total:
+																			{
+																				currency_code: "USD",
+																				value: '@Model.Total.ToString("F2")'
+																			}
+																		}
 
-
-
-														//onApprove: async (data, actions) => {
-														//	try {
-														//	const response = await fetch(`http://localhost:5065/orders/${@Model.Id}/capture`, {
-														//			method: "POST"
-														//		});
-
-														//		const details = await response.json();
-														//		// Three cases to handle:
-														//		//   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-														//		//   (2) Other non-recoverable errors -> Show a failure message
-														//		//   (3) Successful transaction -> Show confirmation or thank you message
-
-														//		// This example reads a v2/checkout/orders capture response, propagated from the server
-														//		// You could use a different API or structure for your 'orderData'
-														//		const errorDetail = Array.isArray(details.details) && details.details[0];
-
-														//		if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
-														//			return actions.restart();
-														//			// https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
-														//		}
-
-														//		if (errorDetail) {
-														//			let msg = 'Sorry, your transaction could not be processed.';
-														//			msg += errorDetail.description ? ' ' + errorDetail.description : '';
-														//			msg += details.debug_id ? ' (' + details.debug_id + ')' : '';
-														//			alert(msg);
-														//		}
-
-														//		// Successful capture! For demo purposes:
-														//		console.log('Capture result', details, JSON.stringify(details, null, 2));
-														//		const transaction = details.purchase_units[0].payments.captures[0];
-														//		alert('Transaction ' + transaction.status + ': ' + transaction.id + 'See console for all available details');
-														//	} catch (error) {
-														//		console.error(error);
-														//		// Handle the error or display an appropriate error message to the user
-														//	}
-														//},
-														onApprove: async (data, actions) => {
-															try {
-																const orderId = data.orderID;
-
-																// Send a request to your server to capture the payment
-																const captureResponse = await fetch(`/Order/CaptureOrder/${orderId}`, {
-																	method: "POST",
-																	headers: {
-																		"Content-Type": "application/json",
-																		"RequestVerificationToken": "@Html.AntiForgeryToken()" // Include an anti-forgery token if required
-																	}
-																});
-
-																if (captureResponse.ok) {
-																	// Handle the capture result here (e.g., show a success message)
-																	console.log('Capture result:', captureResult);
-																	alert('Payment captured successfully. Thank you for your order!');
-
-																	// Redirect to the Thank You page
-																	window.location.href = "/Order/ThankYou"; // Replace with the actual URL of your Thank You page
-																} else {
-																	// Handle the case where capture failed (e.g., show an error message)
-																	console.error('Payment capture failed');
-																	alert('Payment capture failed. Please contact customer support.');
+																	},
+																	items: items
 																}
-															} catch (error) {
+															]
+
+														});
+
+													},
+													onApprove: function (data, actions) {
+														// Capture the funds from the transaction
+														return actions.order.capture().then(function (details) {
+															// Call your server to save the transaction
+															try{ 
+																document.getElementById("checkout-form").submit();
+															}
+															catch (error) {
 																console.error(error);
 																// Handle the error or display an appropriate error message to the user
 																alert('An error occurred while processing your payment. Please try again later.');
 															}
-														},
+														
+														});
+													}
+
+												
 
 													}).render("#paypal-button-container");
 												})
 											</script>
 										
 									</div>
-
-									@*<div class="form-group">
-										<input type="submit" value="Place Order" class="btn" />
-									</div>*@
+									}
+									@if (TempData["OrderCompleted"] as bool? == true)
+									{
+										<h3 class="text-danger">Payment succeded, One or more of the details feilds is missing/ incorrect</h3>
+									    <button type="submit" name="tryAgain" value="true" class="btn">Try Again</button>
+									}
+									
 								</div>
 							</div>
 						</div>

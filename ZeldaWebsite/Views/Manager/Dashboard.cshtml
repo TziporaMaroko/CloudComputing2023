@@ -202,7 +202,7 @@
             lineWidth: 1,
             hoverCallback: function (index, options, content, row) {
                 // Format the tooltip content as desired
-                var dateStr = moment(row.period).format('MM/DD/YYYY');
+                    var dateStr = moment(row.period).format('DD/MM/YYYY');
                 return '<div class="morris-hover-row-label">' + dateStr + '</div>' +
                     '<div class="morris-hover-point" style="color: red;">Orders Count: ' + row.ordersCount + '</div>' +
                     '<div class="morris-hover-point" style="color: gray;">Orders Total: ' + row.ordersTotal + '</div>';
@@ -266,7 +266,7 @@
                                 lineWidth: 1,
                                 hoverCallback: function (index, options, content, row) {
                                     // Format the tooltip content as desired
-                                    var dateStr = moment(row.period).format('MM/DD/YYYY');
+                                    var dateStr = moment(row.period).format('DD/MM/YYYY');
                                     return '<div class="morris-hover-row-label">' + dateStr + '</div>' +
                                         '<div class="morris-hover-point" style="color: red;">Orders Count: ' + row.ordersCount + '</div>' +
                                         '<div class="morris-hover-point" style="color: gray;">Orders Total: ' + row.ordersTotal + '</div>';
