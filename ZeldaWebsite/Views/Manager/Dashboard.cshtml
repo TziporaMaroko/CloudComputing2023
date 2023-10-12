@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- ============================================================== -->
 <!-- Yearly Sales -->
 <!-- ============================================================== -->
@@ -18,7 +20,7 @@
         <div class="card oh">
             <div class="card-body">
                 <h4 class="card-title">Graph Overview</h4>
-                <input type="text" id="date-picker" class="flatpickr" size="24" style="text-align:center" placeholder="Select Date Range..">
+                <input type="text" id="date-picker1" class="flatpickr" size="24" style="text-align:center" placeholder="Select Date Range..">
                 <div id="line-chart" style="height: 350px;"></div>
             </div>
             <div class="card-body bg-light">
@@ -56,18 +58,12 @@
                             <h4 class="card-title">Sales Overview</h4>
                             <h5 class="card-subtitle">Check the monthly sales</h5>
                         </div>
-                        <div class="ml-auto">
-                            <select class="custom-select b-0">
-                                <option>January</option>
-                                <option value="1">February</option>
-                                <option value="2" selected="">March</option>
-                                <option value="3">April</option>
-                            </select>
-                        </div>
+                        <input type="text" id="date-picker2" class="flatpickr ml-10" size="24" style="text-align:center" placeholder="Select Date Range..">
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover">
+
+                        <table id="order-table" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -80,19 +76,16 @@
                         <tbody>
                             @foreach (var order in Model)
                             {
-                                
                                 <tr>
-                                    
                                     <td class="text-center">@order.Id</td>
                                     <td class="txt-oflo">@order.FirstName</td>
                                     <td class="txt-oflo">@order.LastName</td>
                                     <td class="txt-oflo">@order.Date.Day/@order.Date.Month/@order.Date.Year</td>
                                     <td><span class="text-success">@order.Total.ToString("F2")$</span></td>
                                     <td>
-                                        <a asp-action="OrderDetails" asp-route-id="@order.Id"><strong style="color:darkblue;">Details</strong></a> 
+                                        <a asp-action="OrderDetails" asp-route-id="@order.Id"><strong style="color:darkblue;">Details</strong></a>
                                     </td>
                                 </tr>
-                                
                             }
                         </tbody>
                     </table>
@@ -100,7 +93,57 @@
             </div>
         </div>
     </div>
-</div>
+
+    <script>
+        window.addEventListener("load", function (event) {
+            const datePicker = new flatpickr('#date-picker2', {
+                mode: "range",
+                onValueUpdate(selectedDates, dateStr, instance) {
+
+                    // Convert JavaScript date objects to strings in a format that C# can parse
+                    const startDate = selectedDates[0];
+                    const endDate = selectedDates[1];
+                    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+                    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+
+                    // Send the dates to the server using AJAX
+                    $.ajax({
+                        url: `/Manager/GetOrdersForDateRange?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
+                        type: 'GET',
+                        success(data) {
+
+                            // Clear the table body
+                            $('#order-table tbody').empty();
+
+                            // Populate the table with the fetched data
+                            $.each(data, function (index, order) {
+                                var row = $('<tr>');
+                                row.append('<td class="text-center">' + order.id + '</td>');
+                                row.append('<td class="txt-oflo">' + order.firstName + '</td>');
+                                row.append('<td class="txt-oflo">' + order.lastName + '</td>');
+                                // Format and display the date
+                                var dateStr = order.date ? moment(order.date).format('DD/MM/YYYY') : 'N/A';
+                                row.append('<td class="txt-oflo">' + dateStr + '</td>');
+                                // Format and display the total
+                                var totalStr = (order.total !== undefined) ? order.total.toFixed(2) + '$' : 'N/A';
+                                row.append('<td><span class="text-success">' + totalStr + '</span></td>');
+                                // Add a link to order details
+                                var detailsLink = '<td><a href="/Manager/OrderDetails/' + order.id + '"><strong style="color: darkblue;">Details</strong></a></td>';
+                                row.append(detailsLink);
+                                $('#order-table tbody').append(row);
+                            });
+                        },
+                        error() {
+                            console.log('Error fetching data');
+                        },
+                    });
+                },
+            });
+        });
+      
+</script>
+
+
 <style>
     .morris-hover.morris-default-style {
         border-radius: 10px;
@@ -138,14 +181,16 @@
 <script>
     $(function () {
         "use strict";
-        // Retrieve the monthly order data from the hidden div
+
+        // Retrieve the daily order data from the hidden div
         var dailyOrdersData = @Html.Raw(ViewBag.DailyOrdersJson);
 
         var config = {
             data: dailyOrdersData,
-            xkey: 'period',
+            xkey: 'period', // Change xkey to 'period' since you've formatted it as 'dd/mm/yyyy'
             ykeys: ['ordersCount', 'ordersTotal'],
             labels: ['Orders Count', 'Orders Total'],
+            xLabels: 'day', // This will ensure that x-axis labels are shown for each day
             fillOpacity: 0.6,
             hideHover: 'auto',
             behaveLikeLine: true,
@@ -154,20 +199,27 @@
             pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
             lineColors: ['gray', 'red'],
             gridLineColor: ['#009efb', '#7460ee', '#009efb'],
-            lineWidth: 1
+            lineWidth: 1,
+            hoverCallback: function (index, options, content, row) {
+                // Format the tooltip content as desired
+                var dateStr = moment(row.period).format('MM/DD/YYYY');
+                return '<div class="morris-hover-row-label">' + dateStr + '</div>' +
+                    '<div class="morris-hover-point" style="color: red;">Orders Count: ' + row.ordersCount + '</div>' +
+                    '<div class="morris-hover-point" style="color: gray;">Orders Total: ' + row.ordersTotal + '</div>';
+            }
         };
-
 
         config.element = 'line-chart';
         Morris.Line(config);
+    });
 
-    };
+
 
 
 </script>
 <script>
     window.addEventListener("load", function (event) {
-        const datePicker = new flatpickr('#date-picker', {
+        const datePicker = new flatpickr('#date-picker1', {
             mode: "range",
             onValueUpdate(selectedDates, dateStr, instance) {
                 // Remove the existing graph if it exists
@@ -196,22 +248,30 @@
                     url: `/Manager/GetDataForDateRange?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
                     type: 'GET',
                     success(data) {
-                        // Update the graph with the new data
-                        var config = {
-                            data: data,
-                            xkey: 'period',
-                            ykeys: ['ordersCount', 'ordersTotal'],
-                            labels: ['Orders Count', 'Orders Total'],
-                            fillOpacity: 0.6,
-                            hideHover: 'auto',
-                            behaveLikeLine: true,
-                            resize: true,
-                            pointFillColors: ['#ffffff'],
-                            pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
-                            lineColors: ['gray', 'red'],
-                            gridLineColor: ['#009efb', '#7460ee', '#009efb'],
-                            lineWidth: 1
-                        };
+
+                            var config = {
+                                data: data,
+                                xkey: 'period',
+                                ykeys: ['ordersCount', 'ordersTotal'],
+                                labels: ['Orders Count', 'Orders Total'],
+                                xLabels: 'day', // This will ensure that x-axis labels are shown for each day
+                                fillOpacity: 0.6,
+                                hideHover: 'auto',
+                                behaveLikeLine: true,
+                                resize: true,
+                                pointFillColors: ['#ffffff'],
+                                pointStrokeColors: ['#f62d51', '#7460ee', '#009efb'],
+                                lineColors: ['gray', 'red'],
+                                gridLineColor: ['#009efb', '#7460ee', '#009efb'],
+                                lineWidth: 1,
+                                hoverCallback: function (index, options, content, row) {
+                                    // Format the tooltip content as desired
+                                    var dateStr = moment(row.period).format('MM/DD/YYYY');
+                                    return '<div class="morris-hover-row-label">' + dateStr + '</div>' +
+                                        '<div class="morris-hover-point" style="color: red;">Orders Count: ' + row.ordersCount + '</div>' +
+                                        '<div class="morris-hover-point" style="color: gray;">Orders Total: ' + row.ordersTotal + '</div>';
+                                }
+                            };
 
                         config.element = 'line-chart';
                         Morris.Line(config);

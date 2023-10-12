@@ -23,7 +23,7 @@
 	</div>
 	<div class="site-section">
 		<div class="container">
-			<form asp-controller="Order" asp-action="CreateOrder" method="post" class="form-contact">
+			<form id="checkout-form" asp-controller="Order" asp-action="CreateOrder" method="post" class="form-contact">
 				@Html.AntiForgeryToken()
 				<div class="row">
 					<div class="col-md-6 mb-5 mb-md-0">
@@ -112,18 +112,151 @@
 										</tbody>
 									</table>
 									<div class="border p-3 mb-5">
-										<h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+										
+											<div id="paypal-button-container"></div>
+											<script data-sdk-integration-source="integrationbuilder_sc"
+												src="https://www.paypal.com/sdk/js?client-id=ATaR0ncvoOm38jdm-Jg3Nloh1NzbJ_YeBXy5B3-_2Jo0yQQQizWVQdIfuiOCxwCHulyCZzY2Ytk46J1U&components=buttons&enable-funding=venmo,paylater"></script>
+											<script>
+												const FUNDING_SOURCES = [
+													// EDIT FUNDING SOURCES
+													paypal.FUNDING.PAYPAL,
+													paypal.FUNDING.CARD
+												];
+												FUNDING_SOURCES.forEach(fundingSource => {
+													paypal.Buttons({
+														fundingSource,
 
-										<div class="collapse" id="collapsepaypal">
-											<div class="py-2">
-												<p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-											</div>
-										</div>
+														style: {
+															layout: 'vertical',
+															shape: 'rect',
+															color: (fundingSource == paypal.FUNDING.PAYLATER) ? 'gold' : '',
+														},
+
+														//createOrder: async (data, actions) => {
+														//	try {
+														//	const response = await fetch("http://localhost:5065/orders", {
+														//			method: "POST"
+														//		});
+
+														//		const details = await response.json();
+														//		return details.id;
+														//	} catch (error) {
+														//		console.error(error);
+														//		// Handle the error or display an appropriate error message to the user
+														//	}
+														//},
+
+													createOrder: async (data, actions) => {
+														try {
+															const orderId = document.getElementById("checkout-form").submit();
+															// Send a request to your server to capture the payment
+															const captureResponse = await fetch(`/Order/CaptureOrder?id=345678`, {
+																method: "POST",
+																headers: {
+																	"Content-Type": "application/json",
+																	"RequestVerificationToken": "@Html.AntiForgeryToken()" // Include an anti-forgery token if required
+																}
+															});
+
+															if (captureResponse.ok) {
+																// Handle the capture result here (e.g., show a success message)
+																console.log('Capture result:', captureResult);
+																alert('Payment captured successfully. Thank you for your order!');
+
+																// Redirect to the Thank You page
+																window.location.href = "/Order/ThankYou"; // Replace with the actual URL of your Thank You page
+															} else {
+																// Handle the case where capture failed (e.g., show an error message)
+																console.error('Payment capture failed');
+																alert('Payment capture failed. Please contact customer support.');
+															}
+														} catch (error) {
+															console.error(error);
+															// Handle the error or display an appropriate error message to the user
+															alert('An error occurred while processing your payment. Please try again later.');
+														}
+													},
+
+
+
+														//onApprove: async (data, actions) => {
+														//	try {
+														//	const response = await fetch(`http://localhost:5065/orders/${@Model.Id}/capture`, {
+														//			method: "POST"
+														//		});
+
+														//		const details = await response.json();
+														//		// Three cases to handle:
+														//		//   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+														//		//   (2) Other non-recoverable errors -> Show a failure message
+														//		//   (3) Successful transaction -> Show confirmation or thank you message
+
+														//		// This example reads a v2/checkout/orders capture response, propagated from the server
+														//		// You could use a different API or structure for your 'orderData'
+														//		const errorDetail = Array.isArray(details.details) && details.details[0];
+
+														//		if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+														//			return actions.restart();
+														//			// https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+														//		}
+
+														//		if (errorDetail) {
+														//			let msg = 'Sorry, your transaction could not be processed.';
+														//			msg += errorDetail.description ? ' ' + errorDetail.description : '';
+														//			msg += details.debug_id ? ' (' + details.debug_id + ')' : '';
+														//			alert(msg);
+														//		}
+
+														//		// Successful capture! For demo purposes:
+														//		console.log('Capture result', details, JSON.stringify(details, null, 2));
+														//		const transaction = details.purchase_units[0].payments.captures[0];
+														//		alert('Transaction ' + transaction.status + ': ' + transaction.id + 'See console for all available details');
+														//	} catch (error) {
+														//		console.error(error);
+														//		// Handle the error or display an appropriate error message to the user
+														//	}
+														//},
+														onApprove: async (data, actions) => {
+															try {
+																const orderId = data.orderID;
+
+																// Send a request to your server to capture the payment
+																const captureResponse = await fetch(`/Order/CaptureOrder/${orderId}`, {
+																	method: "POST",
+																	headers: {
+																		"Content-Type": "application/json",
+																		"RequestVerificationToken": "@Html.AntiForgeryToken()" // Include an anti-forgery token if required
+																	}
+																});
+
+																if (captureResponse.ok) {
+																	// Handle the capture result here (e.g., show a success message)
+																	console.log('Capture result:', captureResult);
+																	alert('Payment captured successfully. Thank you for your order!');
+
+																	// Redirect to the Thank You page
+																	window.location.href = "/Order/ThankYou"; // Replace with the actual URL of your Thank You page
+																} else {
+																	// Handle the case where capture failed (e.g., show an error message)
+																	console.error('Payment capture failed');
+																	alert('Payment capture failed. Please contact customer support.');
+																}
+															} catch (error) {
+																console.error(error);
+																// Handle the error or display an appropriate error message to the user
+																alert('An error occurred while processing your payment. Please try again later.');
+															}
+														},
+
+													}).render("#paypal-button-container");
+												})
+											</script>
+										
 									</div>
 
-									<div class="form-group">
+									@*<div class="form-group">
 										<input type="submit" value="Place Order" class="btn" />
-									</div>
+									</div>*@
 								</div>
 							</div>
 						</div>

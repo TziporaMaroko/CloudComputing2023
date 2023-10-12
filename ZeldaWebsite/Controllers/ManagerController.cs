@@ -16,7 +16,7 @@ namespace ZeldaWebsite.Controllers
 	{
 		private readonly ZeldaWebsiteContext _context;
 
-		public ManagerController(ZeldaWebsiteContext context)
+        public ManagerController(ZeldaWebsiteContext context)
 		{
 			_context = context;
 		}
@@ -36,7 +36,7 @@ namespace ZeldaWebsite.Controllers
                 .ThenBy(g => g.Key.Day)
                 .Select(g => new
                 {
-                    Period = $"{g.Key.Day:D2}/{g.Key.Month:D2}/{g.Key.Year}",
+                    Period = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day),
                     OrdersCount = g.Count(),
                     OrdersTotal = g.Sum(o => o.Total)
                 })
@@ -270,9 +270,9 @@ namespace ZeldaWebsite.Controllers
                     .ThenBy(g => g.Key.Day)
                     .Select(g => new
                     {
-                        Period = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day).ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds,
+                        Period = new DateTime(g.Key.Year,g.Key.Month,g.Key.Day),
                         OrdersCount = g.Count(),
-                        OrdersTotal = g.Sum(o => o.Total)
+                        OrdersTotal = g.Sum(o => o.Total).ToString("F2")
                     })
                     .ToList();
 
@@ -284,5 +284,29 @@ namespace ZeldaWebsite.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        public List<ZeldaWebsite.Models.Order> GetOrdersForDateRange(DateTime startDate, DateTime endDate)
+		{
+			try
+			{
+				// Query the database to get the relevant data for the graph
+				var graphData = _context.Orders
+					.Where(o => o.Date >= startDate && o.Date <= endDate)
+					.OrderBy(g => g.Date.Year)
+					.ThenBy(g => g.Date.Month)
+					.ThenBy(g => g.Date.Day)
+					.ToList();
+
+				return graphData;
+			}
+			catch (Exception ex)
+			{
+				// Handle any errors and return an error response if needed
+				return null;
+			}
+		
+        }
+
     }
 }
