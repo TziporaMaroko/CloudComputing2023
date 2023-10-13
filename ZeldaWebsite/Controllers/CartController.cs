@@ -26,8 +26,16 @@ public class CartController : Controller
     {
         var cartItems = GetCartItems();
         var flavours = new List<Flavour>();
-
-        foreach (var item in cartItems)
+		if (!cartItems.Any())
+		{
+			ModelState.AddModelError(string.Empty, "Oops.. Looks like your cart is empty:(");
+			return View(new CartView
+			{
+				CartItems = cartItems,
+				Flavours = flavours
+			});
+		}
+		foreach (var item in cartItems)
         {
             var flavour = GetFlavourById(item.FlavourId);
             flavours.Add(flavour);    
