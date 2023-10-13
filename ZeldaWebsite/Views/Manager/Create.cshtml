@@ -5,47 +5,82 @@
     Layout = "~/Views/Shared/ManagerLayout.cshtml";
 }
 <div class="ml-55">
-<h1>Create</h1>
-
-<h4>Flavour</h4>
+    <h1>Create</h1>
+    <h4>Flavour</h4>
 </div>
 <hr />
 <div class="ml-55 mb-10">
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageURL" class="control-label"></label>
-                <input asp-for="ImageURL" class="form-control" />
-                <div class="validation-summary-errors mb-4">
-								@Html.ValidationSummary(false, "", new { @class = "text-danger" })
-							</div>
-                <span asp-validation-for="ImageURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Image Source</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="imageSource" id="imageSourceUrl" value="Url" checked>
+                        <label class="form-check-label" for="imageSourceUrl">
+                            Use Image URL
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="imageSource" id="imageSourceUpload" value="Upload">
+                        <label class="form-check-label" for="imageSourceUpload">
+                            Upload Image
+                        </label>
+                    </div>
+                </div>
+    
+                <!-- Input for Image URL -->
+                <div class="form-group" id="imageUrlInput">
+                    <label asp-for="ImageURL" class="control-label">Image URL</label>
+                    <input asp-for="ImageURL" class="form-control" />
+                    @* <span asp-validation-for="Image_URL" class="text-danger"></span>*@
+                </div>
+    
+                <!-- Input for uploading image -->
+                <div class="form-group" id="imageUploadInput" style="display: none;">
+                    <label>Upload Image</label>
+                    <input type="file" class="form-control" name="ImageFile" />
+                </div>
+    
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index" style="color:darkblue">Back to List</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index" style="color:darkblue">Back to List</a>
-</div>
-</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("input[name='imageSource']").change(function () {
+            var selectedValue = $("input[name='imageSource']:checked").val();
+            if (selectedValue === "Url") {
+                $("#imageUrlInput").show();
+                $("#imageUploadInput").hide();
+            } else if (selectedValue === "Upload") {
+                $("#imageUrlInput").hide();
+                $("#imageUploadInput").show();
+            }
+        });
+    });
+</script>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +16,16 @@ namespace ZeldaWebsite.Controllers
 	public class ManagerController : Controller
 	{
 		private readonly ZeldaWebsiteContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ManagerController(ZeldaWebsiteContext context)
-		{
-			_context = context;
-		}
+        public ManagerController(ZeldaWebsiteContext context, IWebHostEnvironment webHostEnvironment)
+        {
+            _context = context;
+            _webHostEnvironment = webHostEnvironment;
+        }
 
-		// GET: Flavours1
-		public async Task<IActionResult> Index()
+        // GET: Flavours1
+        public async Task<IActionResult> Index()
 		{
 			return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
 						Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
@@ -107,27 +110,82 @@ namespace ZeldaWebsite.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageURL")] Flavour flavour)
-		{
-			
-			
-			bool isImageValid = await CheckImage(flavour.ImageURL);
+        public async Task<IActionResult> Create([Bind("Id,Name,ImageURL,Description,Price")] Flavour flavour, IFormFile ImageFile)
+        {
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                // Handle the case where the user uploads an image from the file explorer
+                // Generate a unique filename for the image
+                string uniqueFileName = $"{Guid.NewGuid().ToString()}_{DateTime.Now.Ticks}{Path.GetExtension(ImageFile.FileName)}";
 
-			if (isImageValid && ModelState.IsValid)
-			{
-				_context.Add(flavour);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
-			}
-			else
-			{
-				// If the address is not valid, add a model error
-				ModelState.AddModelError(string.Empty, "Invalid image. The image does not contain ice cream.");
-				return View(flavour);
-			}
-		}
+				// Define the path where you want to save the image inside the wwwroot / images folder
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", uniqueFileName);
 
-		[HttpPost]
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(fileStream);
+                }
+
+                // Update the Image_URL property with the new path (relative to wwwroot)
+                flavour.ImageURL = $"{uniqueFileName}";
+
+                _context.Add(flavour);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else if (!string.IsNullOrEmpty(flavour.ImageURL))
+            {
+                // Handle the case where the user provides an image URL
+                var imageUrl = flavour.ImageURL;
+                var isImageValid = await CheckImage(imageUrl);
+
+                if (!isImageValid)
+                {
+                    ModelState.AddModelError(string.Empty, "The provided image URL is not valid or does not contain a recognized ice cream image.");
+                    return View(flavour);
+                }
+
+                // Generate a unique filename for the image
+                string uniqueFileName = $"{Guid.NewGuid().ToString()}_{DateTime.Now.Ticks}.jpg";
+
+				// Define the path where you want to save the image inside the wwwroot / images folder
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", uniqueFileName);
+
+                // Download and save the image to the specified path
+                using (var httpClient = new HttpClient())
+                {
+                    var response = await httpClient.GetAsync(imageUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var contentStream = await response.Content.ReadAsStreamAsync();
+
+                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await contentStream.CopyToAsync(fileStream);
+                        }
+
+                        // Update the Image_URL property with the new path (relative to wwwroot)
+                        flavour.ImageURL = $"{uniqueFileName}";
+
+                        _context.Add(flavour);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Please provide either an image URL or upload an image.");
+                return View(flavour);
+            }
+
+            // If ModelState is not valid, return the view with validation errors
+            return View(flavour);
+        }
+
+
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<bool> CheckImage(string imageURL)
 		{

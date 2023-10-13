@@ -51,7 +51,7 @@ namespace ZeldaWebsite.Controllers
 			}
 			else
 			{
-				TempData["OrderCompleted"] = true;
+				TempData["OrderPayed"] = true;
 				// If there's a validation error, return to the Checkout view
 				return View("~/Views/Order/Checkout.cshtml", order);
 			}

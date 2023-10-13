@@ -82,65 +82,8 @@
             </div>
         </div>
         <!-- End Hero -->
-        <!--? Popular Items Start -->
-        <div class="popular-items pt-50">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
-                            <div class="popular-img">
-                                <img src="../img/NewFolder/NewFolder1/erwan-hesry-kwrOLRHjxZc-unsplash.jpg" alt="">
-                                <div class="img-cap">
-                                    <span>All</span>
-                                </div>
-                                <div class="favorit-items">
-                                <a asp-action="Flavours" class="btn">Shop Now</a>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="single-popular-items mb-50 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
-                        <div class="popular-img">
-                            <img src=../img/NewFolder/NewFolder1/leighann-blackwood--cQ2kQqpEB8-unsplash.jpg alt="">
-                            <div class="img-cap">
-                                <span>Cream</span>
-                            </div>
-                            <div class="favorit-items">
-                             <a href="shop.html" class="btn">Shop Now</a>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-popular-items mb-50 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
-                    <div class="popular-img">
-                        <img src=../img/NewFolder/NewFolder1/donna-g-MmZjbhO0i7c-unsplash.jpg alt="">
-                        <div class="img-cap">
-                            <span>Sorbet</span>
-                        </div>
-                        <div class="favorit-items">
-                                <a asp-action="Flavours" class="btn">Shop Now</a>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="single-popular-items mb-50 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay=".6s">
-                <div class="popular-img">
-                    <img src=../img/NewFolder/NewFolder1/michel-stockman-_xZXKYDYQGE-unsplash.jpg alt="">
-                    <div class="img-cap">
-                        <span>Sugar-Free</span>
-                    </div>
-                    <div class="favorit-items">
-                                <a asp-action="Flavours" class="btn">Shop Now</a>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
-</div>
-</div>
+       
+
 <!-- Popular Items End -->
 <!--? New Arrival Start -->
 <div class="new-arrival">
@@ -160,7 +103,7 @@
                         <div class="single-new-arrival mb-50 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
                             <a asp-action="Flavour" asp-route-id="@item.Id">
                                 <div class="popular-img">
-                                    <img src="~/assets/img/NewFolder/@Html.DisplayFor(modelItem => item.ImageURL)" alt="">
+                                    <img src="~/images/@Html.DisplayFor(modelItem => item.ImageURL)" alt="">
                                     
                                 </div>
                                 <div class="popular-caption">
@@ -192,7 +135,7 @@
             </div>
         </div>
     </div>
-</div>
+
 </section>
 
 </main>
