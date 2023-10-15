@@ -27,46 +27,69 @@ namespace ZeldaWebsite.Controllers
         // GET: Flavours1
         public async Task<IActionResult> Index()
 		{
-			return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
-						Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
+            if (StaticFields.IsUser)
+            {
+                return _context.Flavour != null ? View(await _context.Flavour.ToListAsync()) :
+                        Problem("Entity set 'ZeldaWebsiteContext.Flavour'  is null.");
+            }
+            else
+            {
+                // Redirect to the "404NotFound" action in the controller
+                return RedirectToAction("NotFound404");
+            }
+            
 		}
+
+        public async Task<IActionResult> NotFound404()
+        {
+			return View();
+        }
         public async Task<IActionResult> Dashboard()
         {
-            var dailyOrders = _context.Orders
-                .GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month, Day = o.Date.Day })
-                .OrderBy(g => g.Key.Year)
-                .ThenBy(g => g.Key.Month)
-                .ThenBy(g => g.Key.Day)
-                .Select(g => new
-                {
-                    Period = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day),
-                    OrdersCount = g.Count(),
-                    OrdersTotal = g.Sum(o => o.Total)
-                })
-                .ToList();
+			if (StaticFields.IsUser)
+			{
+				var dailyOrders = _context.Orders
+				.GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month, Day = o.Date.Day })
+				.OrderBy(g => g.Key.Year)
+				.ThenBy(g => g.Key.Month)
+				.ThenBy(g => g.Key.Day)
+				.Select(g => new
+				{
+					Period = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day),
+					OrdersCount = g.Count(),
+					OrdersTotal = g.Sum(o => o.Total)
+				})
+				.ToList();
 
-            ViewBag.DailyOrdersJson = JsonConvert.SerializeObject(dailyOrders.Select(g => new
+				ViewBag.DailyOrdersJson = JsonConvert.SerializeObject(dailyOrders.Select(g => new
+				{
+					period = g.Period,
+					ordersCount = g.OrdersCount,
+					ordersTotal = g.OrdersTotal.ToString("F2")
+				}));
+
+				return _context.Orders != null ?
+					View(await _context.Orders.ToListAsync()) :
+					Problem("Entity set 'ZeldaWebsiteContext.Orders' is null.");
+			}
+            else
             {
-                period = g.Period,
-                ordersCount = g.OrdersCount,
-                ordersTotal = g.OrdersTotal.ToString("F2")
-            }));
-
-            return _context.Orders != null ?
-                View(await _context.Orders.ToListAsync()) :
-                Problem("Entity set 'ZeldaWebsiteContext.Orders' is null.");
+                // Redirect to the "404NotFound" action in the controller
+                return RedirectToAction("NotFound404");
+            }
         }
 
 
 
 
-        // GET: Flavours1/Details/5
-        public async Task<IActionResult> Details(int? id)
+		// GET: Flavours1/Details/5
+		public async Task<IActionResult> Details(int? id)
 		{
-			if (id == null || _context.Flavour == null)
-			{
-				return NotFound();
-			}
+			if (StaticFields.IsUser) { 
+				if (id == null || _context.Flavour == null)
+				{
+					return NotFound();
+				}
 
 			var flavour = await _context.Flavour
 				.FirstOrDefaultAsync(m => m.Id == id);
@@ -76,34 +99,56 @@ namespace ZeldaWebsite.Controllers
 			}
 
 			return View(flavour);
-		}
+			}
+            else
+            {
+                // Redirect to the "404NotFound" action in the controller
+                return RedirectToAction("NotFound404");
+            }
+        }
 
         // GET: Orders/Details/5
         public async Task<IActionResult> OrderDetails(int? id)
         {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
+			if (StaticFields.IsUser)
+			{
+				if (id == null || _context.Orders == null)
+				{
+					return NotFound();
+				}
 
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            var orderItems = await _context.ShoppingCartItems.Where(item => item.OrderId == id).ToListAsync();
-            //Bind order's products to the entity order
-            order.Products = orderItems;
+				var order = await _context.Orders
+					.FirstOrDefaultAsync(m => m.Id == id);
+				if (order == null)
+				{
+					return NotFound();
+				}
+				var orderItems = await _context.ShoppingCartItems.Where(item => item.OrderId == id).ToListAsync();
+				//Bind order's products to the entity order
+				order.Products = orderItems;
 
-            return View(order);
+				return View(order);
+			}
+            else
+            {
+                // Redirect to the "404NotFound" action in the controller
+                return RedirectToAction("NotFound404");
+            }
         }
 
         // GET: Flavours1/Create
         public IActionResult Create()
 		{
-			return View();
-		}
+			if (StaticFields.IsUser)
+			{
+				return View();
+			}
+            else
+            {
+                // Redirect to the "404NotFound" action in the controller
+                return RedirectToAction("NotFound404");
+            }
+        }
 
 		// POST: Flavours1/Create
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -223,17 +268,24 @@ namespace ZeldaWebsite.Controllers
 		// GET: Flavours1/Edit/5
 		public async Task<IActionResult> Edit(int? id)
 		{
-			if (id == null || _context.Flavour == null)
+			if (StaticFields.IsUser)
 			{
-				return NotFound();
-			}
+				if (id == null || _context.Flavour == null)
+				{
+					return NotFound();
+				}
 
-			var flavour = await _context.Flavour.FindAsync(id);
-			if (flavour == null)
-			{
-				return NotFound();
+				var flavour = await _context.Flavour.FindAsync(id);
+				if (flavour == null)
+				{
+					return NotFound();
+				}
+				return View(flavour);
 			}
-			return View(flavour);
+            else
+            {
+                return RedirectToAction("NotFound404");
+            }
 		}
 
 		// POST: Flavours1/Edit/5
@@ -243,50 +295,65 @@ namespace ZeldaWebsite.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ImageURL")] Flavour flavour)
 		{
-			if (id != flavour.Id)
+			if (StaticFields.IsUser)
 			{
-				return NotFound();
-			}
+				if (id != flavour.Id)
+				{
+					return NotFound();
+				}
 
-			if (ModelState.IsValid)
-			{
-				try
+				if (ModelState.IsValid)
 				{
-					_context.Update(flavour);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!FlavourExists(flavour.Id))
+					try
 					{
-						return NotFound();
+						_context.Update(flavour);
+						await _context.SaveChangesAsync();
 					}
-					else
+					catch (DbUpdateConcurrencyException)
 					{
-						throw;
+						if (!FlavourExists(flavour.Id))
+						{
+							return NotFound();
+						}
+						else
+						{
+							throw;
+						}
 					}
+					return RedirectToAction(nameof(Index));
 				}
-				return RedirectToAction(nameof(Index));
+				return View(flavour);
 			}
-			return View(flavour);
+            else
+            {
+                return RedirectToAction("NotFound404");
+            }
 		}
 
 		// GET: Flavours1/Delete/5
 		public async Task<IActionResult> Delete(int? id)
 		{
-			if (id == null || _context.Flavour == null)
-			{
-				return NotFound();
-			}
 
-			var flavour = await _context.Flavour
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (flavour == null)
+			if (StaticFields.IsUser)
 			{
-				return NotFound();
-			}
+				if (id == null || _context.Flavour == null)
+				{
+					return NotFound();
+				}
 
-			return View(flavour);
+				var flavour = await _context.Flavour
+					.FirstOrDefaultAsync(m => m.Id == id);
+				if (flavour == null)
+				{
+					return NotFound();
+				}
+
+				return View(flavour);
+			}
+            else
+            {
+                return RedirectToAction("NotFound404");
+            }
 		}
 
 		// POST: Flavours1/Delete/5
