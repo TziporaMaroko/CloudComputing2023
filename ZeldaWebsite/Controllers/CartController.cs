@@ -28,10 +28,9 @@ public class CartController : Controller
         var flavours = new List<Flavour>();
 		if (!cartItems.Any())
 		{
-			ModelState.AddModelError(string.Empty, "Oops.. Looks like your cart is empty:(");
 			return View(new CartView
 			{
-				CartItems = cartItems,
+				CartItems = null,
 				Flavours = flavours
 			});
 		}
