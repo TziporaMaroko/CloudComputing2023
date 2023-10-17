@@ -3212,15 +3212,16 @@ hr {
 }
 
 .slider-bg1 {
-    background-image: url(../img/NewFolder/NewFolder1/ian-dooley-TLD6iCOlyb0-unsplash.jpg)
+    background-image: url(~/images/NewFolder1/michel-stockman-_xZXKYDYQGE-unsplash.jpg)
+    
 }
 
 .slider-bg2 {
-    background-image: url(../img/NewFolder/NewFolder1/michel-stockman-_xZXKYDYQGE-unsplash.jpg)
+    background-image: url(~/images/NewFolder1/ian-dooley-TLD6iCOlyb0-unsplash.jpg)
 }
 
 .slider-bg3 {
-    background-image: url(../img/NewFolder/NewFolder1/jason-leung-BxkMhxgdOh8-unsplash.jpg)
+    background-image: url(~/images/NewFolder1/jason-leung-BxkMhxgdOh8-unsplash.jpg)
 }
 
 .slider-area {

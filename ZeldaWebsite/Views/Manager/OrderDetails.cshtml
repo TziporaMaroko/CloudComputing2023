@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/ManagerLayout.cshtml";
 }
 
-
 <div class="page-notification">
     <div class="container">
         <div class="row">
@@ -121,10 +120,11 @@
                                 <thead>
                                     <tr style="color: black;">
                                         <th class="product-thumbnail">Image</th>
-                                        <th class="product-name">Flavour ID</th>
-                                        
+                                        <th class="product-name">Flavour</th>
+                                        <th>Price</th>
                                         <th class="product-size">Size</th>
-                                        <th class="product-total">Total Price</th>
+                                        <th class="product-total">Total</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -132,15 +132,49 @@
                                     {
                                         <tr data-product-id="@cartItem.FlavourId">
                                             <td class="product-thumbnail">
-                                                <img src="~/images/loading.gif" alt="Image" class="img-fluid" width="100" height="100">
+                                                <img  alt="Image" class="img-fluid" width="100" height="100">
                                             </td>
-											<td class="flavourName">@cartItem.FlavourId</td>
-											
+                                            <td class="flavourName"></td>
+                                            <td class="flavourPrice"></td>
                                             <td>@cartItem.Size liter</td>
                                             <td>@cartItem.Price.ToString("F2")</td>
                                         </tr>
                                     }
                                 </tbody>
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                                <script>
+                                    $(document).ready(function () {
+                                        $('tr[data-product-id]').each(function () {
+                                            var row = $(this);
+                                            var flavourId = row.data('product-id');
+                                            var flavourNameCell = row.find('.flavourName');
+                                            var flavourPriceCell = row.find('.flavourPrice');
+                                            var imageCell = row.find('.product-thumbnail img');
+
+                                            // Make an AJAX request to GetFlavourById
+                                            $.ajax({
+                                                url: '/Cart/GetFlavourById?id=' + flavourId, // Update with your controller and action route
+                                                method: 'GET',
+                                                dataType: 'json',
+                                                success: function (data) {
+                                                    if (data) {
+                                                        // Populate the corresponding cells with the received data
+                                                        flavourNameCell.text(data.name);
+                                                        flavourPriceCell.text(data.price);
+                                                        var imageUrl = '../../images' + data.imageURL;
+
+                                                        // Set the image source with the correct URL
+                                                        imageCell.attr('src', imageUrl);
+                                                    }
+                                                },
+                                                error: function () {
+                                                    // Handle error if needed
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
                             </table>
                         </div>
                     </form>

@@ -63,7 +63,7 @@ namespace ZeldaWebsite.Controllers
         public async Task<bool> CheckAddress(string city, string street)
         {
             // Construct the URL of the other project's endpoint
-            string apiUrl = $"http://localhost:5186/Streets?city={city}&street={street}"; 
+            string apiUrl = $"http://gateway-api.somee.com/Streets?city={city}&street={street}"; 
 
             try
             {
@@ -98,7 +98,7 @@ namespace ZeldaWebsite.Controllers
         public Weather FindWeather(string city)
 		{
 			// Construct the URL to the API Gateway's GetWeather endpoint
-			string apiUrl = $"http://localhost:5186/Weather?city={city}"; 
+			string apiUrl = $"http://gateway-api.somee.com/Weather?city={city}"; 
 
 			try
 			{
@@ -135,7 +135,7 @@ namespace ZeldaWebsite.Controllers
 		public async Task<bool> IsItHoliday(string y, string m, string d)
 		{
 			// Construct the URL of the other project's endpoint
-			string apiUrl = $"http://localhost:5186/HebCal?y={y}&m={m}&d={d}";
+			string apiUrl = $"http://gateway-api.somee.com/HebCal?y={y}&m={m}&d={d}";
 
 			try
 			{
